@@ -1,9 +1,20 @@
+﻿using System;
 using System.Collections;
 using UnityEngine;
 
 // 총을 구현
-public class Rifle : MonoBehaviour {
+public class Gun : MonoBehaviour {
     // 총의 상태를 표현하는 데 사용할 타입을 선언
+
+    public string gunName;
+
+    // public Gun gun;
+
+    // public static bool isActivate = true;
+
+    
+
+
     public enum State {
         Ready, // 발사 준비됨
         Empty, // 탄알집이 빔
@@ -21,10 +32,11 @@ public class Rifle : MonoBehaviour {
 
     private AudioSource gunAudioPlayer; // 총 소리 재생기
 
-    public RifleData rifleData; // 총의 현재 데이터
+    public GunData gunData; // 총의 현재 데이터
 
     private float fireDistance = 50f; // 사정거리
 
+    public int ammoRemain = 100; // 남은 전체 탄알
     public int magAmmo; // 현재 탄알집에 남아 있는 탄알
 
     private float lastFireTime; // 총을 마지막으로 발사한 시점
@@ -40,6 +52,7 @@ public class Rifle : MonoBehaviour {
     }
 
     private void OnEnable() {        // 총 상태 초기화
+        ammoRemain = gunData.startAmmoRemain;
         magAmmo = gunData.magCapacity;
         state = State.Ready;
         lastFireTime = 0;
@@ -104,7 +117,7 @@ public class Rifle : MonoBehaviour {
 
     // 재장전 시도
     public bool Reload() {
-        if (state == State.Reloading || magAmmo >= gunData.magCapacity) {
+        if (state == State.Reloading || ammoRemain <= 0 || magAmmo >= gunData.magCapacity) {
             return false;
         }
 
@@ -121,9 +134,35 @@ public class Rifle : MonoBehaviour {
 
         // 재장전 소요 시간 만큼 처리 쉬기
         yield return new WaitForSeconds(gunData.reloadTime);
-        
-        magAmmo += rifleData.magCapacity;
-        
+
+        int ammoToFill = gunData.magCapacity - magAmmo;
+
+        if (ammoRemain < ammoToFill) {
+            ammoToFill = ammoRemain;
+        }
+
+        magAmmo += ammoToFill;
+
+        ammoRemain -= ammoToFill;
+        // 총의 현재 상태를 발사 준비된 상태로 변경
         state = State.Ready;
     }
+
+    // public void GunChange(GGun _gun) {
+    //     if (GunManager.currentWeapon != null) {
+    //         GunManager.currentWeapon.gameObject.SetActive(false);
+    //     }
+
+    //     currentGun = _gun;
+    //     GunManager.currentWeapon = currentGun.GetComponent<Transform>();
+        
+    //     currentGun.gameObject.SetActive(true);
+
+    //     isActivate = true;
+    // }
+
+    // internal void GunChange(object value)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }

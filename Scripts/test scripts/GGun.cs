@@ -2,8 +2,13 @@ using System.Collections;
 using UnityEngine;
 
 // 총을 구현
-public class Rifle : MonoBehaviour {
+public class GGun : MonoBehaviour {
     // 총의 상태를 표현하는 데 사용할 타입을 선언
+    // public string gunName;  // 총의 이름
+
+    private GGun currentGun;
+    private GGun gundata;
+
     public enum State {
         Ready, // 발사 준비됨
         Empty, // 탄알집이 빔
@@ -21,29 +26,16 @@ public class Rifle : MonoBehaviour {
 
     private AudioSource gunAudioPlayer; // 총 소리 재생기
 
-    public RifleData rifleData; // 총의 현재 데이터
+    public GunData gunData; // 총의 현재 데이터
 
     private float fireDistance = 50f; // 사정거리
 
+    // public int ammoRemain = 100; // 남은 전체 탄알
     public int magAmmo; // 현재 탄알집에 남아 있는 탄알
 
     private float lastFireTime; // 총을 마지막으로 발사한 시점
 
-    private void Awake() {
-        // 사용할 컴포넌트의 참조 가져오기
-        gunAudioPlayer = GetComponent<AudioSource>();
-        bulletLineRenderer = GetComponent<LineRenderer>();
 
-        bulletLineRenderer.positionCount = 2;
-
-        bulletLineRenderer.enabled = false;
-    }
-
-    private void OnEnable() {        // 총 상태 초기화
-        magAmmo = gunData.magCapacity;
-        state = State.Ready;
-        lastFireTime = 0;
-    }
 
     // 발사 시도
     public void Fire() {
@@ -121,9 +113,23 @@ public class Rifle : MonoBehaviour {
 
         // 재장전 소요 시간 만큼 처리 쉬기
         yield return new WaitForSeconds(gunData.reloadTime);
+
         
-        magAmmo += rifleData.magCapacity;
-        
+        // 총의 현재 상태를 발사 준비된 상태로 변경
         state = State.Ready;
     }
+    
+
+    // public virtual void WeaponChange(GGun _ggun)
+    // {
+    //     if (GunManager.currentWeapon != null)
+    //         GunManager.currentWeapon.gameObject.SetActive(false);
+
+    //     gunName = _closeWeapon;
+    //     GunManager.currentWeapon = gunName.GetComponent<Transform>();
+
+    //     gunName.transform.localPosition = Vector3.zero;
+    //     gunName.gameObject.SetActive(true);
+    // }
+
 }

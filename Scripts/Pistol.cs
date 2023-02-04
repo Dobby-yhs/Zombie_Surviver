@@ -1,9 +1,10 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 // 총을 구현
-public class Rifle : MonoBehaviour {
+public class Pistol : MonoBehaviour {
     // 총의 상태를 표현하는 데 사용할 타입을 선언
+    
     public enum State {
         Ready, // 발사 준비됨
         Empty, // 탄알집이 빔
@@ -21,7 +22,7 @@ public class Rifle : MonoBehaviour {
 
     private AudioSource gunAudioPlayer; // 총 소리 재생기
 
-    public RifleData rifleData; // 총의 현재 데이터
+    public PistolData pistoldata; // 총의 현재 데이터
 
     private float fireDistance = 50f; // 사정거리
 
@@ -40,14 +41,14 @@ public class Rifle : MonoBehaviour {
     }
 
     private void OnEnable() {        // 총 상태 초기화
-        magAmmo = gunData.magCapacity;
+        magAmmo = PistolData.magCapacity;
         state = State.Ready;
         lastFireTime = 0;
     }
 
     // 발사 시도
     public void Fire() {
-        if (state == State.Ready && Time.time >= lastFireTime + gunData.timeBetFire) {
+        if (state == State.Ready && Time.time >= lastFireTime + PistolData.timeBetFire) {
             lastFireTime = Time.time;
             Shot();
         }
@@ -63,7 +64,7 @@ public class Rifle : MonoBehaviour {
             IDamageable target = hit.collider.GetComponent<IDamageable>();
 
             if (target != null) {
-                target.OnDamage(gunData.damage, hit.point, hit.normal);
+                target.OnDamage(PistolData.damage, hit.point, hit.normal);
 
                 hitPosition = hit.point;
             }
@@ -86,7 +87,7 @@ public class Rifle : MonoBehaviour {
 
         shellEjectEffect.Play();
 
-        gunAudioPlayer.PlayOneShot(gunData.shotClip);
+        gunAudioPlayer.PlayOneShot(pistolData.shotClip);
 
         bulletLineRenderer.SetPosition(0, fireTransform.position);
 
@@ -104,7 +105,7 @@ public class Rifle : MonoBehaviour {
 
     // 재장전 시도
     public bool Reload() {
-        if (state == State.Reloading || magAmmo >= gunData.magCapacity) {
+        if (state == State.Reloading || magAmmo >= pistolData.magCapacity) {
             return false;
         }
 
@@ -117,13 +118,14 @@ public class Rifle : MonoBehaviour {
         // 현재 상태를 재장전 중 상태로 전환
         state = State.Reloading;
       
-        gunAudioPlayer.PlayOneShot(gunData.reloadClip);
+        gunAudioPlayer.PlayOneShot(pistolData.reloadClip);
 
         // 재장전 소요 시간 만큼 처리 쉬기
-        yield return new WaitForSeconds(gunData.reloadTime);
+        yield return new WaitForSeconds(pistolData.reloadTime);
         
-        magAmmo += rifleData.magCapacity;
-        
+        magAmmo += pistolData.magCapacity;
+
+        // 총의 현재 상태를 발사 준비된 상태로 변경
         state = State.Ready;
     }
 }
