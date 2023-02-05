@@ -7,7 +7,8 @@ public class GGun : MonoBehaviour {
     // public string gunName;  // 총의 이름
 
     private GGun currentGun;
-    private GGun gundata;
+
+    public GGunData gunData; // 총의 현재 데이터
 
     public enum State {
         Ready, // 발사 준비됨
@@ -26,8 +27,6 @@ public class GGun : MonoBehaviour {
 
     private AudioSource gunAudioPlayer; // 총 소리 재생기
 
-    public GunData gunData; // 총의 현재 데이터
-
     private float fireDistance = 50f; // 사정거리
 
     // public int ammoRemain = 100; // 남은 전체 탄알
@@ -35,6 +34,18 @@ public class GGun : MonoBehaviour {
 
     private float lastFireTime; // 총을 마지막으로 발사한 시점
 
+    /////////////////////////
+    public AudioClip shotClip; // 발사 소리
+    public AudioClip reloadClip; // 재장전 소리
+
+    public float damage; // 공격력
+
+    public int startAmmoRemain; // 처음에 주어질 전체 탄약
+    public int magCapacity; // 탄창 용량
+
+    public float timeBetFire; // 총알 발사 간격
+    public float reloadTime; // 재장전 소요 시간
+    /////////////////////
 
 
     // 발사 시도

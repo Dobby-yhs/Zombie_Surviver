@@ -1,7 +1,9 @@
 using UnityEngine;
 
-public class GGunData : ScriptableObject
+public class GGunData : MonoBehaviour
 {
+
+
     public AudioClip shotClip; // 발사 소리
     public AudioClip reloadClip; // 재장전 소리
 

@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class RifleData : MonoBehaviour
+public class GunData : GGunData
 {
-    public AudioClip shotClip; // 발사 소리
-    public AudioClip reloadClip; // 재장전 소리
+   //  public float damage = 25; // 공격력
 
-    public float damage = 25; // 공격력
+    public GGunData ggundata;
+
+
 
     public int startAmmoRemain = 100; // 처음에 주어질 전체 탄약
     public int magCapacity = 25; // 탄창 용량

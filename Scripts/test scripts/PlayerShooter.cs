@@ -9,7 +9,7 @@ public class PlayerShooter : MonoBehaviour {
     public GGun currentGun;
 
     // public Transform gunPivot; // 총 배치의 기준점
-    public Transform riflePivot;
+    public Transform Weapone;
     public Transform leftHandMount; // 총의 왼쪽 손잡이, 왼손이 위치할 지점
     public Transform rightHandMount; // 총의 오른쪽 손잡이, 오른손이 위치할 지점
 
@@ -57,7 +57,7 @@ public class PlayerShooter : MonoBehaviour {
 
     // 애니메이터의 IK 갱신
     private void OnAnimatorIK(int layerIndex) {
-        riflePivot.position = playerAnimator.GetIKHintPosition(AvatarIKHint.RightElbow);
+        Weapone.position = playerAnimator.GetIKHintPosition(AvatarIKHint.RightElbow);
 
         playerAnimator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1.0f);
         playerAnimator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1.0f);

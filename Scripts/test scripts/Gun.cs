@@ -32,7 +32,7 @@ public class Gun : MonoBehaviour {
 
     private AudioSource gunAudioPlayer; // 총 소리 재생기
 
-    public GunData gunData; // 총의 현재 데이터
+    public GGunData gunData; // 총의 현재 데이터
 
     private float fireDistance = 50f; // 사정거리
 

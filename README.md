@@ -9,3 +9,5 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 ### 2/5 추가 총기 스크립트 완성 및 시행착오
 #### GunData 상속과 Shooter에서의 GunData 사용법에 대해 생각하기
 #### https://hypnotic-smoke-d5a.notion.site/2023_UNITY_0204-8e3234c718804233904b7f015ff5723b
+### 2/6 총기 스탯 업그레이드 스크립트 완성 및 시행착오
+#### GunData가 할당된 프리팹을 Gun의 변수 값(ex. damage)이 변경될 때 마다 다시 할당해주는 스크립트 작성하기
