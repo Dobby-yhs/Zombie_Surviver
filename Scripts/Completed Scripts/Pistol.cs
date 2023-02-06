@@ -123,7 +123,7 @@ public class Pistol : MonoBehaviour {
         // 재장전 소요 시간 만큼 처리 쉬기
         yield return new WaitForSeconds(pistolData.reloadTime);
         
-        magAmmo += pistolData.magCapacity;
+        magAmmo = pistolData.magCapacity;
 
         // 총의 현재 상태를 발사 준비된 상태로 변경
         state = State.Ready;

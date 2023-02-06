@@ -86,7 +86,7 @@ public class Sniper : MonoBehaviour {
 
         shellEjectEffect.Play();
 
-        gunAudioPlayer.PlayOneShot(pistolData.shotClip);
+        gunAudioPlayer.PlayOneShot(sniperData.shotClip);
 
         bulletLineRenderer.SetPosition(0, fireTransform.position);
 
@@ -117,12 +117,12 @@ public class Sniper : MonoBehaviour {
         // 현재 상태를 재장전 중 상태로 전환
         state = State.Reloading;
       
-        gunAudioPlayer.PlayOneShot(pistolData.reloadClip);
+        gunAudioPlayer.PlayOneShot(sniperData.reloadClip);
 
         // 재장전 소요 시간 만큼 처리 쉬기
-        yield return new WaitForSeconds(pistolData.reloadTime);
+        yield return new WaitForSeconds(sniperData.reloadTime);
 
-        magAmmo += sniperData.magCapacity;
+        magAmmo = sniperData.magCapacity;
         
         // 총의 현재 상태를 발사 준비된 상태로 변경
         state = State.Ready;

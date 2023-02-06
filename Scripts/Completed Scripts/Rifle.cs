@@ -40,14 +40,14 @@ public class Rifle : MonoBehaviour {
     }
 
     private void OnEnable() {        // 총 상태 초기화
-        magAmmo = gunData.magCapacity;
+        magAmmo = rifleData.magCapacity;
         state = State.Ready;
         lastFireTime = 0;
     }
 
     // 발사 시도
     public void Fire() {
-        if (state == State.Ready && Time.time >= lastFireTime + gunData.timeBetFire) {
+        if (state == State.Ready && Time.time >= lastFireTime + rifleData.timeBetFire) {
             lastFireTime = Time.time;
             Shot();
         }
@@ -63,7 +63,7 @@ public class Rifle : MonoBehaviour {
             IDamageable target = hit.collider.GetComponent<IDamageable>();
 
             if (target != null) {
-                target.OnDamage(gunData.damage, hit.point, hit.normal);
+                target.OnDamage(rifleData.damage, hit.point, hit.normal);
 
                 hitPosition = hit.point;
             }
@@ -86,7 +86,7 @@ public class Rifle : MonoBehaviour {
 
         shellEjectEffect.Play();
 
-        gunAudioPlayer.PlayOneShot(gunData.shotClip);
+        gunAudioPlayer.PlayOneShot(rifleData.shotClip);
 
         bulletLineRenderer.SetPosition(0, fireTransform.position);
 
@@ -104,7 +104,7 @@ public class Rifle : MonoBehaviour {
 
     // 재장전 시도
     public bool Reload() {
-        if (state == State.Reloading || magAmmo >= gunData.magCapacity) {
+        if (state == State.Reloading || magAmmo >= rifleData.magCapacity) {
             return false;
         }
 
@@ -117,12 +117,12 @@ public class Rifle : MonoBehaviour {
         // 현재 상태를 재장전 중 상태로 전환
         state = State.Reloading;
       
-        gunAudioPlayer.PlayOneShot(gunData.reloadClip);
+        gunAudioPlayer.PlayOneShot(rifleData.reloadClip);
 
         // 재장전 소요 시간 만큼 처리 쉬기
-        yield return new WaitForSeconds(gunData.reloadTime);
+        yield return new WaitForSeconds(rifleData.reloadTime);
         
-        magAmmo += rifleData.magCapacity;
+        magAmmo = rifleData.magCapacity;
         
         state = State.Ready;
     }
