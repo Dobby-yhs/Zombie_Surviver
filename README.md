@@ -13,3 +13,5 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### ~~GunData가 할당된 프리팹을 Gun의 변수 값(ex. damage)이 변경될 때 마다 다시 할당해주는 스크립트 작성하기~~
 ### 2/7 총기 스탯 업그레이드 코드 작성 완료 및 총기 선택 스크립트 완성
 #### 프리팹을 재할당해주는 스크립트 없어도 변수 값 변경 가능.. 단순한 실수였다.(GunChoice.cs 스크립트에서 obj를 할당해주지 않아 null 오류가 계속 떴었다.)
+### 2/8 총기 선택 스크립트 최적화 및 playerShooter에서 currentGun 할당 방식 수정 중
+#### currentGun 대신 Gun 스크립트를 통해 guns 배열을 만들어 오브젝트 선택하는 방식 채택

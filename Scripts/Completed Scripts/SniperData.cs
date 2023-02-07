@@ -1,7 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Scriptable/SniperData", fileName = "Sniper Data")]
-public class SniperData : ScriptableObject
+public class SniperData : MonoBehaviour
 {
     public AudioClip shotClip; // 발사 소리
     public AudioClip reloadClip; // 재장전 소리

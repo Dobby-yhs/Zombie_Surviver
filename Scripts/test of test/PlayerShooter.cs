@@ -4,16 +4,8 @@
 // 알맞은 애니메이션을 재생하고 IK를 사용해 캐릭터 양손이 총에 위치하도록 조정
 public class PlayerShooter : MonoBehaviour 
 {
-
-    public Gun current;
-
     public GameObject[] guns;
     public int currentGun;
-
-    public Gun gun;
-    public Pistol pistol;
-    public Rifle rifle;
-    public Sniper sniper;
 
     // public Transform gunPivot; // 총 배치의 기준점
     public Transform Gun;
@@ -36,10 +28,18 @@ public class PlayerShooter : MonoBehaviour
         guns[currentGun].SetActive(true);
     }
 
-    private void OnEnable() {
-        // 슈터가 활성화될 때 총도 함께 활성화
+    public void ChangeGun(int newGun)
+    {
+        guns[currentGun].SetActive(false);
+
+        currentGun = newGun;
         guns[currentGun].SetActive(true);
     }
+
+    // private void OnEnable() {
+        // 슈터가 활성화될 때 총도 함께 활성화
+    //     guns[currentGun].SetActive(true);
+    // }
     
     private void OnDisable() {
         // 슈터가 비활성화될 때 총도 함께 비활성화
@@ -51,40 +51,12 @@ public class PlayerShooter : MonoBehaviour
     private void Update() {
         // 입력을 감지하고 총 발사하거나 재장전
         if (playerInput.fire) {
-            switch (gun.currentGunIndex)
-            {
-                case 0 :
-                    pistol.Fire();
-                    break;
-                case 1 :
-                    rifle.Fire();
-                    break;
-                case 2 :
-                    sniper.Fire();
-                    break;
-            }
+            currentGun.Fire();
+            guns[currentGun].Fire();
         }
         else if (playerInput.reload) {
-            switch (gun.currentGunIndex)
-            {  
-                case 0 :
-                    if (pistol.Reload()) 
-                    {
-                        playerAnimator.SetTrigger("Reload");
-                    }
-                    break;
-                case 1 :
-                    if (rifle.Reload()) 
-                    {
-                        playerAnimator.SetTrigger("Reload");
-                    }
-                    break;
-                case 2 :
-                    if (sniper.Reload()) 
-                    {
-                        playerAnimator.SetTrigger("Reload");
-                    }
-                    break;
+            if (guns[currentGun].Reload()) {
+                playerAnimator.SetTrigger("Reload");
             }
         }
 
@@ -93,23 +65,10 @@ public class PlayerShooter : MonoBehaviour
 
     // 탄약 UI 갱신
     private void UpdateUI() {
-        // if (currentGun != null && UIManager.instance != null)
-        if (UIManager.instance != null)
+        if (currentGun != null && UIManager.instance != null)
         {
             // UI 매니저의 탄약 텍스트에 탄창의 탄약과 남은 전체 탄약을 표시
-            switch (gun.currentGunIndex)
-            {  
-                case 0 :
-                    UIManager.instance.UpdateAmmoText(pistol.magAmmo);
-                    break;
-                case 1 :
-                    UIManager.instance.UpdateAmmoText(rifle.magAmmo);
-                    break;
-                case 2 :
-                    UIManager.instance.UpdateAmmoText(sniper.magAmmo);
-                    break;
-            }
-            // UIManager.instance.UpdateAmmoText(currentGun.magAmmo);
+            UIManager.instance.UpdateAmmoText(currentGun.magAmmo);
         }
     }
 
