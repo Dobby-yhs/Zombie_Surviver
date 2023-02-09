@@ -1,10 +1,18 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI; // AI, 내비게이션 시스템 관련 코드 가져오기
 
 // 좀비 AI 구현
 public class Zombie : LivingEntity
 {
+    // public GameObject[] zombieType; // 사용할 좀비 종류
+    // public int zombieIndex= 0;
+
+    public ZombieStat zombieStat;
+    public LightZombieStat lightzombieStat;
+    public ZombieDogStat zombiedogStat;
+
+    public int zombieKill = 0;
     public LayerMask whatIsTarget; // 추적 대상 레이어
 
     private LivingEntity targetEntity; // 추적 대상
@@ -14,7 +22,7 @@ public class Zombie : LivingEntity
     public AudioClip deathSound; // 사망 시 재생할 소리
     public AudioClip hitSound; // 피격 시 재생할 소리
 
-    private Animator zombieAnimator; // 애니메이터 컴포넌트
+    // private Animator zombieAnimator; // 애니메이터 컴포넌트
     private AudioSource zombieAudioPlayer; // 오디오 소스 컴포넌트
     private Renderer zombieRenderer; // 렌더러 컴포넌트
 
@@ -40,7 +48,7 @@ public class Zombie : LivingEntity
     private void Awake() {
         // 초기화
         navMeshAgent = GetComponent<NavMeshAgent>();
-        zombieAnimator = GetComponent<Animator>();
+        zombieStat.zombieAnimator = GetComponent<Animator>();
         zombieAudioPlayer = GetComponent<AudioSource>();
 
         zombieRenderer = GetComponentInChildren<Renderer>();
@@ -58,7 +66,15 @@ public class Zombie : LivingEntity
     }
     */
 
-    public void Setup(ZombieStat zombieStat)    {
+    public void LightZombieSetup(LightZombieStat lightzombieStat)    {
+        startingHealth = lightzombieStat.health;
+        health = lightzombieStat.damage;
+
+        damage = lightzombieStat.damage;
+        navMeshAgent.speed = lightzombieStat.speed;
+    }
+
+    public void ZombieSetup(ZombieStat zombieStat)    {
         startingHealth = zombieStat.health;
         health = zombieStat.damage;
 
@@ -67,14 +83,45 @@ public class Zombie : LivingEntity
         zombieRenderer.material.color = zombieStat.skinColor;
     }
 
+    public void ZombieDogSetup(ZombieDogStat zombiedogStat)    {
+        startingHealth = zombiedogStat.health;
+        health = zombiedogStat.damage;
+
+        damage = zombiedogStat.damage;
+        navMeshAgent.speed = zombiedogStat.speed;
+    }
+
+    public void EliteZombieSetup(EliteZombieStat elitezombieStat)    {
+        startingHealth = elitezombieStat.health;
+        health = elitezombieStat.damage;
+
+        damage = elitezombieStat.damage;
+        navMeshAgent.speed = elitezombieStat.speed;
+        zombieRenderer.material.color = elitezombieStat.skinColor;
+    }
+
     private void Start() {
         // 게임 오브젝트 활성화와 동시에 AI의 추적 루틴 시작
         StartCoroutine(UpdatePath());
+
+        // for ( int i = 0; i < zombieType.Length; i++)
+        // {
+        //     if ( i == zombieIndex) 
+        //     {
+        //         zombieType[i].gameObject.SetActive(true);
+        //     }
+        //     else
+        //     {
+        //         zombieType[i].gameObject.SetActive(false);
+        //     }
+        // }
     }
 
     private void Update() {
         // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
-        zombieAnimator.SetBool("HasTarget", hasTarget);
+        zombieStat.zombieAnimator.SetBool("HasTarget", hasTarget);
+
+        // 다른 종류 좀비들 애니메이션 확인해봐야함
     }
 
     // 주기적으로 추적할 대상의 위치를 찾아 경로 갱신
@@ -106,7 +153,7 @@ public class Zombie : LivingEntity
         }
     }
 
-    // 데미지를 입었을 때 실행할 처리
+    // 데미지를 입었을 때 실행할 처리 
     public override void OnDamage(float damage, Vector3 hitPoint, Vector3 hitNormal) {
         // LivingEntity의 OnDamage()를 실행하여 데미지 적용
         if (!dead) {
@@ -133,8 +180,12 @@ public class Zombie : LivingEntity
         navMeshAgent.isStopped = true;
         navMeshAgent.enabled = false;
 
-        zombieAnimator.SetTrigger("Die");
+        zombieStat.zombieAnimator.SetTrigger("Die");
+        // 다른 종류 좀비 사망 애니메이션 확인해서 넣기
+
         zombieAudioPlayer.PlayOneShot(deathSound);
+
+        zombieKill++;
     }
 
     private void OnTriggerStay(Collider other) {
