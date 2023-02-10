@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // 좀비 게임 오브젝트를 주기적으로 생성
 public class ZombieSpawner : MonoBehaviour {
     public Zombie zombiePrefab; // 생성할 좀비 원본 프리팹
 
-    public Zombie zombie;
+    public Zombie zombiemMdel;
+
+    public Merchant merchant;
 
     public ZombieStat zombieStat;
     public LightZombieStat lightzombieStat;
@@ -18,8 +21,11 @@ public class ZombieSpawner : MonoBehaviour {
     private float waveTime;// 현재 웨이브
     private int wave = 0;
 
+    private int spawnCount = 0;
+
     private void Start() {
         waveTime = Time.time;
+
     }
 
     private void Update() {
@@ -29,8 +35,8 @@ public class ZombieSpawner : MonoBehaviour {
             return;
         }
 
-        // 좀비를 모두 물리친 경우 다음 스폰 실행
-        if (zombies.Count <= 0)
+        // 좀비를 20마리 정도 물리친 경우 다음 스폰 실행
+        if (zombies.Count <= 20)
         {
             SpawnWave();
         }
@@ -41,6 +47,18 @@ public class ZombieSpawner : MonoBehaviour {
             zombieStat.damage += 5;
             zombiedogStat.damage += 5;
             elitezombieStat.damage += 5;
+        }
+
+        if (merchant.merchant.activeSelf == true)
+        {
+            int zombieCount = spawnCount - zombiemMdel.zombieKill;
+
+            PauseZombies();
+
+            if (merchant.merchant.activeSelf == false)
+            {
+                Resumezombies();
+            }
         }
 
         // UI 갱신
@@ -55,15 +73,27 @@ public class ZombieSpawner : MonoBehaviour {
     }
     */
     // 현재 웨이브에 맞춰 좀비들을 생성
+
+    private void PauseZombies() {
+        foreach (Zombie zombie in zombies) {
+            zombie.GetComponent<NavMeshAgent>().enabled = false;
+        }
+    }
+
+    private void Resumezombies() {
+        foreach (Zombie zombie in zombies) {
+            zombie.GetComponent<NavMeshAgent>().enabled = true;
+        }
+    }
+
     private void SpawnWave() {
         wave++;
-        int spawnCount = 0;
         
         // 좀비 수 조정하는 부분
-        if (zombie.zombieKill == 60) {
+        if (zombiemMdel.zombieKill == 60) {
             spawnCount = Mathf.RoundToInt(wave * 1.5f);     // 현재 웨이브 * 1.5를 반올림한 수만큼 좀비 생성
         }
-        if (zombie.zombieKill == 150) {
+        if (zombiemMdel.zombieKill == 150) {
             spawnCount = Mathf.RoundToInt(wave * 1.3f);
         }
         

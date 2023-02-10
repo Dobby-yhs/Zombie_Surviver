@@ -49,6 +49,8 @@ public class Zombie : LivingEntity
         // 초기화
         navMeshAgent = GetComponent<NavMeshAgent>();
         zombieStat.zombieAnimator = GetComponent<Animator>();
+        // 다른 좀비 애니메이션까지 초기화해줘야 할 수도 있으니 확인 바람.
+
         zombieAudioPlayer = GetComponent<AudioSource>();
 
         zombieRenderer = GetComponentInChildren<Renderer>();

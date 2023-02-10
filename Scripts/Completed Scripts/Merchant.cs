@@ -7,7 +7,8 @@ public class Merchant : MonoBehaviour
 {
     public GameObject merchant;
     private Rigidbody merchantRigidbody;    // 필요있는지 정확히 모르겠음;;
-    private Animator merchantAnimator; // 애니메이션 찾아서 넣어주기
+    
+    // private Animator merchantAnimator; // idle 애니메이션 추가, idle 애니메이션 고정으로 넣을거라 Start()를 통해 컴포넌트 안 받아와도 됨.
     public Transform playerTransform;   // 플레이어의 트랜스폼
 
     public GameObject testButton;
@@ -17,13 +18,13 @@ public class Merchant : MonoBehaviour
     public Zombie zombie;   // zombieKill
     public PlayerInput playerInput;
 
-    private void Start()
-    {
-        merchantRigidbody = GetComponent<Rigidbody>();
-        merchantAnimator = GetComponent<Animator>();
+    // private void Start()
+    // {
+    //     merchantRigidbody = GetComponent<Rigidbody>();
+    //     merchantAnimator = GetComponent<Animator>();
 
-        // testButton = GameObject.Find("TestButton");
-    }
+    //     // testButton = GameObject.Find("TestButton");
+    // }
 
     private void Update()
     {
