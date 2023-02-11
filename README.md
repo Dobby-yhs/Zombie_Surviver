@@ -23,3 +23,7 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### 총기 업그레이드 스탯에 관해서는 토의 통해 수정 예정
 ### 2/11 상인 스크립트 및 좀비 스포너 스크립트 수정 완료
 #### 상인 스크립트 애니메이션은 고정이기에 컴포넌트 안받아오는 것으로 수정, 좀비 스포너 스크립트에는 상인의 활성화 여부에 따라 좀비 정지시키는 코드 삽입
+### 2/11 스크립트 맵에 적용, 오류 수정 중
+#### [오류 1] "Stop" can only be called on an active agent that has been placed on a NavMesh.UnityEngine.tackTraceUtility:ExtractStackTrace ()Zombie/<UpdatePath>d__25:MoveNext () (at Assets/Scripts/Zombie.cs:141)UnityEngine.onoBehaviour:StartCoroutine (System.Collections.IEnumerator)Zombie:Start () (at Assets/Scripts/Zombie.cs:109)
+#### [오류 2] "Resume" can only be called on an active agent that has been placed on a NavMesh.UnityEngine.tackTraceUtility:ExtractStackTrace ()Zombie/<UpdatePath>d__25:MoveNext () (at Assets/Scripts/Zombie.cs:137)UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+#### [오류 3] "SetDestination" can only be called on an active agent that has been placed on a NavMesh.UnityEngine.AI.avMeshAgent:SetDestination (UnityEngine.Vector3)Zombie/<UpdatePath>d__25:MoveNext () (at Assets/Scripts/Zombie.cs:138)UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)

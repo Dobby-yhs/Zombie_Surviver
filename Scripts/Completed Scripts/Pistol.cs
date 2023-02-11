@@ -22,7 +22,7 @@ public class Pistol : MonoBehaviour {
 
     private AudioSource gunAudioPlayer; // 총 소리 재생기
 
-    public PistolData pistoldata; // 총의 현재 데이터
+    public PistolData pistolData; // 총의 현재 데이터
 
     private float fireDistance = 50f; // 사정거리
 
@@ -41,14 +41,14 @@ public class Pistol : MonoBehaviour {
     }
 
     private void OnEnable() {        // 총 상태 초기화
-        magAmmo = PistolData.magCapacity;
+        magAmmo = pistolData.magCapacity;
         state = State.Ready;
         lastFireTime = 0;
     }
 
     // 발사 시도
     public void Fire() {
-        if (state == State.Ready && Time.time >= lastFireTime + PistolData.timeBetFire) {
+        if (state == State.Ready && Time.time >= lastFireTime + pistolData.timeBetFire) {
             lastFireTime = Time.time;
             Shot();
         }
@@ -64,7 +64,7 @@ public class Pistol : MonoBehaviour {
             IDamageable target = hit.collider.GetComponent<IDamageable>();
 
             if (target != null) {
-                target.OnDamage(PistolData.damage, hit.point, hit.normal);
+                target.OnDamage(pistolData.damage, hit.point, hit.normal);
 
                 hitPosition = hit.point;
             }

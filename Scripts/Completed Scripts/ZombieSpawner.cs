@@ -6,7 +6,7 @@ using UnityEngine.AI;
 public class ZombieSpawner : MonoBehaviour {
     public Zombie zombiePrefab; // 생성할 좀비 원본 프리팹
 
-    public Zombie zombiemMdel;
+    public Zombie zombieModel;
 
     public Merchant merchant;
 
@@ -17,7 +17,10 @@ public class ZombieSpawner : MonoBehaviour {
 
     public Transform[] spawnPoints; // 좀비 AI를 소환할 위치들
 
-    private List<Zombie> zombies = new List<Zombie>(); // 생성된 좀비들을 담는 리스트
+    private List<Zombie> lightzombies = new List<Zombie>(); // 생성된 좀비들을 담는 리스트
+    private List<Zombie> zombies = new List<Zombie>();
+    private List<Zombie> zombiedogs = new List<Zombie>();
+    private List<Zombie> elitezombies = new List<Zombie>();
     private float waveTime;// 현재 웨이브
     private int wave = 0;
 
@@ -51,7 +54,7 @@ public class ZombieSpawner : MonoBehaviour {
 
         if (merchant.merchant.activeSelf == true)
         {
-            int zombieCount = spawnCount - zombiemMdel.zombieKill;
+            int zombieCount = spawnCount - zombieModel.zombieKill;
 
             PauseZombies();
 
@@ -75,13 +78,31 @@ public class ZombieSpawner : MonoBehaviour {
     // 현재 웨이브에 맞춰 좀비들을 생성
 
     private void PauseZombies() {
+        foreach (Zombie zombie in lightzombies) {
+            zombie.GetComponent<NavMeshAgent>().enabled = false;
+        }
         foreach (Zombie zombie in zombies) {
+            zombie.GetComponent<NavMeshAgent>().enabled = false;
+        }
+        foreach (Zombie zombie in zombiedogs) {
+            zombie.GetComponent<NavMeshAgent>().enabled = false;
+        }
+        foreach (Zombie zombie in elitezombies) {
             zombie.GetComponent<NavMeshAgent>().enabled = false;
         }
     }
 
     private void Resumezombies() {
+        foreach (Zombie zombie in lightzombies) {
+            zombie.GetComponent<NavMeshAgent>().enabled = true;
+        }
         foreach (Zombie zombie in zombies) {
+            zombie.GetComponent<NavMeshAgent>().enabled = true;
+        }
+        foreach (Zombie zombie in zombiedogs) {
+            zombie.GetComponent<NavMeshAgent>().enabled = true;
+        }
+        foreach (Zombie zombie in elitezombies) {
             zombie.GetComponent<NavMeshAgent>().enabled = true;
         }
     }
@@ -89,11 +110,14 @@ public class ZombieSpawner : MonoBehaviour {
     private void SpawnWave() {
         wave++;
         
+        if (zombieModel.zombieKill == 0) {
+            spawnCount = wave;
+        }
         // 좀비 수 조정하는 부분
-        if (zombiemMdel.zombieKill == 60) {
+        if (zombieModel.zombieKill == 60) {
             spawnCount = Mathf.RoundToInt(wave * 1.5f);     // 현재 웨이브 * 1.5를 반올림한 수만큼 좀비 생성
         }
-        if (zombiemMdel.zombieKill == 150) {
+        if (zombieModel.zombieKill == 150) {
             spawnCount = Mathf.RoundToInt(wave * 1.3f);
         }
         
@@ -116,18 +140,37 @@ public class ZombieSpawner : MonoBehaviour {
         // 좀비 프리팹으로부터 좀비 생성
         Zombie zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
-        // 생성한 좀비의 능력치 설정
+        // 생성한 좀비의 능력치 설정 및 생성된 좀비를 리스트에 추가
+    
         zombie.LightZombieSetup(lightzombieStat);
-        zombie.ZombieSetup(zombieStat);
-        zombie.ZombieDogSetup(zombiedogStat);
-        zombie.EliteZombieSetup(elitezombieStat);
+        lightzombies.Add(zombie);
 
-        // 생성된 좀비를 리스트에 추가
-        zombies.Add(zombie);
+        if (zombieModel.zombieKill >= 30)
+        {
+            zombie.ZombieSetup(zombieStat);
+            zombies.Add(zombie);
+        }
+        
+        if (zombieModel.zombieKill >= 90)
+        {
+            zombie.ZombieDogSetup(zombiedogStat);
+            zombiedogs.Add(zombie);
+        }
+
+        if (zombieModel.zombieKill >= 150)
+        {
+            zombie.EliteZombieSetup(elitezombieStat);
+            elitezombies.Add(zombie);
+        }
+                
 
         // 좀비의 onDeath 이벤트에 익명 메서드 등록
         // 사망한 좀비를 리스트에서 제거
+        zombie.onDeath += () => lightzombies.Remove(zombie);
         zombie.onDeath += () => zombies.Remove(zombie);
+        zombie.onDeath += () => zombiedogs.Remove(zombie);
+        zombie.onDeath += () => elitezombies.Remove(zombie);
+
         // 사망한 좀비를 10초 뒤에 파괴
         zombie.onDeath += () => Destroy(zombie.gameObject, 10f);
         // 좀비 사망 시 좀비 상승

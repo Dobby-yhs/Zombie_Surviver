@@ -11,8 +11,10 @@ public class Zombie : LivingEntity
     public ZombieStat zombieStat;
     public LightZombieStat lightzombieStat;
     public ZombieDogStat zombiedogStat;
+    public EliteZombieStat elitezombieStat;
 
     public int zombieKill = 0;
+    
     public LayerMask whatIsTarget; // 추적 대상 레이어
 
     private LivingEntity targetEntity; // 추적 대상

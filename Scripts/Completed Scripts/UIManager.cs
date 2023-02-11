@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿    using UnityEngine;
 using UnityEngine.SceneManagement; // 씬 관리자 관련 코드
 using UnityEngine.UI; // UI 관련 코드
 

@@ -40,14 +40,14 @@ public class Sniper : MonoBehaviour {
     }
 
     private void OnEnable() {        // 총 상태 초기화
-        magAmmo = SniperData.magCapacity;
+        magAmmo = sniperData.magCapacity;
         state = State.Ready;
         lastFireTime = 0;
     }
 
     // 발사 시도
     public void Fire() {
-        if (state == State.Ready && Time.time >= lastFireTime + SniperData.timeBetFire) {
+        if (state == State.Ready && Time.time >= lastFireTime + sniperData.timeBetFire) {
             lastFireTime = Time.time;
             Shot();
         }
@@ -63,7 +63,7 @@ public class Sniper : MonoBehaviour {
             IDamageable target = hit.collider.GetComponent<IDamageable>();
 
             if (target != null) {
-                target.OnDamage(SniperData.damage, hit.point, hit.normal);
+                target.OnDamage(sniperData.damage, hit.point, hit.normal);
 
                 hitPosition = hit.point;
             }
