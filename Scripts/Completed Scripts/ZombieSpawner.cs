@@ -6,8 +6,6 @@ using UnityEngine.AI;
 public class ZombieSpawner : MonoBehaviour {
     public Zombie zombiePrefab; // 생성할 좀비 원본 프리팹
 
-    public Zombie zombieModel;
-
     public Merchant merchant;
 
     public ZombieStat zombieStat;
@@ -24,6 +22,8 @@ public class ZombieSpawner : MonoBehaviour {
     private float waveTime;// 현재 웨이브
     private int wave = 0;
 
+    public int zombieKill = 0;
+
     private int spawnCount = 0;
 
     private void Start() {
@@ -39,7 +39,7 @@ public class ZombieSpawner : MonoBehaviour {
         }
 
         // 좀비를 20마리 정도 물리친 경우 다음 스폰 실행
-        if (zombies.Count <= 20)
+        if (zombies.Count <= 5)
         {
             SpawnWave();
         }
@@ -54,7 +54,7 @@ public class ZombieSpawner : MonoBehaviour {
 
         if (merchant.merchant.activeSelf == true)
         {
-            int zombieCount = spawnCount - zombieModel.zombieKill;
+            int zombieCount = spawnCount - zombieKill;
 
             PauseZombies();
 
@@ -72,52 +72,105 @@ public class ZombieSpawner : MonoBehaviour {
     /*
     private void UpdateUI() {
         // 현재 진행된 시간와 남은 적 수 표시
-        UIManager.instance.UpdateWaveText((int)waveTime, zombies.Count);    
+        UIManager.instance.UpdateWaveText((int)waveTime, zombies.Count); 
     }
     */
     // 현재 웨이브에 맞춰 좀비들을 생성
 
     private void PauseZombies() {
-        foreach (Zombie zombie in lightzombies) {
-            zombie.GetComponent<NavMeshAgent>().enabled = false;
+        // foreach (Zombie zombie in lightzombies)
+        // {
+        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+        //     if (navMeshAgent != null)
+        //     {
+        //         navMeshAgent.enabled = false;
+        //     }
+        // }
+
+        foreach (Zombie zombie in zombies)
+        {
+            NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+            if (navMeshAgent != null)
+            {
+                navMeshAgent.enabled = false;
+            }
         }
-        foreach (Zombie zombie in zombies) {
-            zombie.GetComponent<NavMeshAgent>().enabled = false;
-        }
-        foreach (Zombie zombie in zombiedogs) {
-            zombie.GetComponent<NavMeshAgent>().enabled = false;
-        }
-        foreach (Zombie zombie in elitezombies) {
-            zombie.GetComponent<NavMeshAgent>().enabled = false;
-        }
+
+        // foreach (Zombie zombie in zombiedogs)
+        // {
+        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+        //     if (navMeshAgent != null)
+        //     {
+        //         navMeshAgent.enabled = false;
+        //     }
+        // }
+
+        // foreach (Zombie zombie in elitezombies)
+        // {
+        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+        //     if (navMeshAgent != null)
+        //     {
+        //         navMeshAgent.enabled = false;
+        //     }
+        // }
     }
 
     private void Resumezombies() {
-        foreach (Zombie zombie in lightzombies) {
-            zombie.GetComponent<NavMeshAgent>().enabled = true;
+        
+        // foreach (Zombie zombie in lightzombies)
+        // {
+        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+        //     if (navMeshAgent != null)
+        //     {
+        //         navMeshAgent.enabled = true;
+        //     }
+        // }
+
+        foreach (Zombie zombie in zombies)
+        {
+            NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+            if (navMeshAgent != null)
+            {
+                navMeshAgent.enabled = true;
+            }
         }
-        foreach (Zombie zombie in zombies) {
-            zombie.GetComponent<NavMeshAgent>().enabled = true;
-        }
-        foreach (Zombie zombie in zombiedogs) {
-            zombie.GetComponent<NavMeshAgent>().enabled = true;
-        }
-        foreach (Zombie zombie in elitezombies) {
-            zombie.GetComponent<NavMeshAgent>().enabled = true;
-        }
+
+        // foreach (Zombie zombie in zombiedogs)
+        // {
+        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+        //     if (navMeshAgent != null)
+        //     {
+        //         navMeshAgent.enabled = true;
+        //     }
+        // }
+
+        // foreach (Zombie zombie in elitezombies)
+        // {
+        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+        //     if (navMeshAgent != null)
+        //     {
+        //         navMeshAgent.enabled = true;
+        //     }
+        // }
     }
 
     private void SpawnWave() {
         wave++;
+        Debug.Log("SpawnWave!!");
+        Debug.Log("SpawnCount : " + spawnCount);
+
         
-        if (zombieModel.zombieKill == 0) {
+        // spawnCount = 1;
+        if (zombieKill == 0) {
             spawnCount = wave;
         }
+        
         // 좀비 수 조정하는 부분
-        if (zombieModel.zombieKill == 60) {
+        if (zombieKill == 15) {
             spawnCount = Mathf.RoundToInt(wave * 1.5f);     // 현재 웨이브 * 1.5를 반올림한 수만큼 좀비 생성
+            Debug.Log("15!SpawnWave!!");
         }
-        if (zombieModel.zombieKill == 150) {
+        if (zombieKill == 150) {
             spawnCount = Mathf.RoundToInt(wave * 1.3f);
         }
         
@@ -126,6 +179,7 @@ public class ZombieSpawner : MonoBehaviour {
         {
             // 좀비 생성 처리 실행
             CreateZombie();
+            Debug.Log("Spawn and Create!!");
         }
     }
 
@@ -142,26 +196,32 @@ public class ZombieSpawner : MonoBehaviour {
 
         // 생성한 좀비의 능력치 설정 및 생성된 좀비를 리스트에 추가
     
-        zombie.LightZombieSetup(lightzombieStat);
-        lightzombies.Add(zombie);
+        zombie.ZombieSetup(zombieStat);
+        zombies.Add(zombie);   
 
-        if (zombieModel.zombieKill >= 30)
+        Debug.Log("CreateZombie!!");
+
+        // zombie.LightZombieSetup(lightzombieStat);
+        // lightzombies.Add(zombie);
+
+        if (zombieKill >= 10)
         {
-            zombie.ZombieSetup(zombieStat);
-            zombies.Add(zombie);
+            // zombie.ZombieSetup(zombieStat);
+            // zombies.Add(zombie);
+            Debug.Log("10!CreateZombie!!");
         }
         
-        if (zombieModel.zombieKill >= 90)
-        {
-            zombie.ZombieDogSetup(zombiedogStat);
-            zombiedogs.Add(zombie);
-        }
+        // if (zombieKill >= 90)
+        // {
+        //     zombie.ZombieDogSetup(zombiedogStat);
+        //     zombiedogs.Add(zombie);
+        // }
 
-        if (zombieModel.zombieKill >= 150)
-        {
-            zombie.EliteZombieSetup(elitezombieStat);
-            elitezombies.Add(zombie);
-        }
+        // if (zombieKill >= 150)
+        // {
+        //     zombie.EliteZombieSetup(elitezombieStat);
+        //     elitezombies.Add(zombie);
+        // }
                 
 
         // 좀비의 onDeath 이벤트에 익명 메서드 등록
@@ -175,5 +235,8 @@ public class ZombieSpawner : MonoBehaviour {
         zombie.onDeath += () => Destroy(zombie.gameObject, 10f);
         // 좀비 사망 시 좀비 상승
         zombie.onDeath += () => GameManager.instance.AddScore(100);
+
+        zombie.onDeath += () => zombieKill++;
+        Debug.Log("ZombieKill : " + zombieKill);
     }
 }

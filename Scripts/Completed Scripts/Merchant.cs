@@ -15,28 +15,26 @@ public class Merchant : MonoBehaviour
 
     public float maxDistance = 5f; // 플레이어 위치로부터 상인이 스폰될 최대 반경
 
-    public Zombie zombie;   // zombieKill
+    private bool isSpawned = false;
+
+    public ZombieSpawner zombie;   // zombieKill
     public PlayerInput playerInput;
 
-    // private void Start()
-    // {
-    //     merchantRigidbody = GetComponent<Rigidbody>();
-    //     merchantAnimator = GetComponent<Animator>();
-
-    //     // testButton = GameObject.Find("TestButton");
-    // }
 
     private void Update()
     {
-        if (zombie.zombieKill == 60)
+        if (zombie.zombieKill == 1 && !isSpawned)
         {
             Spawn();
+            isSpawned = true;
+            Debug.Log("merchant spawn!");
         }
 
         if (testButton.activeSelf == true) {
             if (Input.GetKeyDown(KeyCode.V)) {
                 testButton.SetActive(false);    // 상점 UI 비활성화
-                Destroy(merchant); 
+                // merchant.SetActive(false);
+                Destroy(merchant);
                 playerInput.EnableInput();
             }
         }
@@ -45,7 +43,7 @@ public class Merchant : MonoBehaviour
     private void Spawn()
     {
         Vector3 spawnPosition = GetRandomPointOnNavMesh(playerTransform.position, maxDistance);
-        spawnPosition += Vector3.up * 0.5f;
+        spawnPosition += Vector3.up;
 
         merchant = Instantiate(merchant, spawnPosition, Quaternion.identity);
     }
@@ -63,7 +61,7 @@ public class Merchant : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.name == "Player Character")
+        if (collision.gameObject.name == "PlayerCharacter")
         {
             Debug.Log("Collision!");
             testButton.SetActive(true);     // 상점 UI 활성화

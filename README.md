@@ -27,3 +27,6 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### [오류 1] "Stop" can only be called on an active agent that has been placed on a NavMesh.UnityEngine.tackTraceUtility:ExtractStackTrace ()Zombie/<UpdatePath>d__25:MoveNext () (at Assets/Scripts/Zombie.cs:141)UnityEngine.onoBehaviour:StartCoroutine (System.Collections.IEnumerator)Zombie:Start () (at Assets/Scripts/Zombie.cs:109)
 #### [오류 2] "Resume" can only be called on an active agent that has been placed on a NavMesh.UnityEngine.tackTraceUtility:ExtractStackTrace ()Zombie/<UpdatePath>d__25:MoveNext () (at Assets/Scripts/Zombie.cs:137)UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
 #### [오류 3] "SetDestination" can only be called on an active agent that has been placed on a NavMesh.UnityEngine.AI.avMeshAgent:SetDestination (UnityEngine.Vector3)Zombie/<UpdatePath>d__25:MoveNext () (at Assets/Scripts/Zombie.cs:138)UnityEngine.SetupCoroutine:InvokeMoveNext (System.Collections.IEnumerator,intptr)
+### 2/12 상인 스폰 및 NavMeshAgent 오류 수정 중
+#### 상인 스폰은 성공했지만, 스폰 후 collider가 안됨(MerchantSpawner에 스크립트를 적용하였는데, Merchant 프리팹에 직접적으로 스크립트가 적용이 안된 듯 싶음)
+#### 오류는 NavMeshAgent를 좀비 리스트들에 중첩적으로 작성하여 안되는게 아니라 그냥 PauseZombie 함수 안에서 zombies 리스트 하나에서만 해도 오류가 발생했음
