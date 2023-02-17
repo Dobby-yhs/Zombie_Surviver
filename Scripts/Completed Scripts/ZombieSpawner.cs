@@ -87,14 +87,14 @@ public class ZombieSpawner : MonoBehaviour {
         //     }
         // }
 
-        foreach (Zombie zombie in zombies)
-        {
-            NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-            if (navMeshAgent != null)
-            {
-                navMeshAgent.enabled = false;
-            }
-        }
+        // foreach (Zombie zombie in zombies)
+        // {
+        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+        //     if (navMeshAgent != null)
+        //     {
+        //         navMeshAgent.enabled = false;
+        //     }
+        // }
 
         // foreach (Zombie zombie in zombiedogs)
         // {
@@ -126,14 +126,14 @@ public class ZombieSpawner : MonoBehaviour {
         //     }
         // }
 
-        foreach (Zombie zombie in zombies)
-        {
-            NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-            if (navMeshAgent != null)
-            {
-                navMeshAgent.enabled = true;
-            }
-        }
+        // foreach (Zombie zombie in zombies)
+        // {
+        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
+        //     if (navMeshAgent != null)
+        //     {
+        //         navMeshAgent.enabled = true;
+        //     }
+        // }
 
         // foreach (Zombie zombie in zombiedogs)
         // {
@@ -163,6 +163,8 @@ public class ZombieSpawner : MonoBehaviour {
         // spawnCount = 1;
         if (zombieKill == 0) {
             spawnCount = wave;
+            Debug.Log(spawnCount);
+
         }
         
         // 좀비 수 조정하는 부분

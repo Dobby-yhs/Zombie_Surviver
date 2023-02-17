@@ -49,6 +49,7 @@ public class PlayerInput : MonoBehaviour {
 
     public void DisableInput()
     {
+        Debug.Log("DisableInput!");
         inputEnabled = false;
         frontback = 0;
         rightleft = 0;
