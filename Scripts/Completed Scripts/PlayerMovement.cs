@@ -26,6 +26,11 @@ public class PlayerMovement : MonoBehaviour
         playerAnimator = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        Time.timeScale = 1.0f;
+    }
+
     // FixedUpdate는 물리 갱신 주기에 맞춰 실행됨
     private void FixedUpdate()
     {

@@ -120,6 +120,7 @@ public class ZombieSpawner : MonoBehaviour {
         Time.timeScale = 0.0f;
 
         // player 오브젝트 unscaledDeltaTime 확인
+        
 
         GameIsPaused = true;
     }

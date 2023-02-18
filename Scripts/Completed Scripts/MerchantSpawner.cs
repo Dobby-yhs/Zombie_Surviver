@@ -28,6 +28,12 @@ public class MerchantSpawner : MonoBehaviour
             isSpawned = true;
             Debug.Log("merchant spawn!");
         }
+        if (merchant.merchant)
+        {
+            if (merchant.merchant.activeSelf == false) {
+                isSpawned = false;
+            }
+        }
     }
 
     private void Spawn()    

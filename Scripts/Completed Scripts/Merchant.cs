@@ -11,6 +11,8 @@ public class Merchant : MonoBehaviour
 
     private PlayerInput playerInput;
 
+    public bool isCollide;
+
 
     private void Start()
     {
@@ -19,13 +21,19 @@ public class Merchant : MonoBehaviour
 
     private void Update()
     {
-        if (testButton.activeSelf == true) {
+        if (testButton.activeSelf == true) 
+        {
+            isCollide = true;
+            //Debug.Log(isCollide);
+
             if (Input.GetKeyDown(KeyCode.V)) {
                 testButton.SetActive(false);    // 상점 UI 비활성화
-                // merchant.SetActive(false);
-                Destroy(merchant);
+                // Destroy(merchant);
+                merchant.SetActive(false);
                 playerInput.EnableInput();
-                
+
+                isCollide = false;
+                //Debug.Log(isCollide);
             }
         }
     }
@@ -35,10 +43,20 @@ public class Merchant : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             Debug.Log("Collision!");
+            
             testButton.SetActive(true);     // 상점 UI 활성화
             playerInput.DisableInput();
         }        
     }
+
+    // private void OnCollisionExit(Collision collision)
+    // {
+    //     if (collision.gameObject.CompareTag("Player"))
+    //     {
+    //         isCollide = false;
+    //         Debug.Log(isCollide);
+    //     }
+    // }
 
     public void Active()
     {

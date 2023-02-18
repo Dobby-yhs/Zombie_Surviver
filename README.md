@@ -34,3 +34,5 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### 좀비 4마리 적용, 아이템 스폰 적용, 총기 애니메이션 적용, 상인 접촉 후 좀비도 멈추게 적용(NavMeshAgent 오류) 필요
 ### 2/18 time 일시정지 수정 중
 #### 플레이어만 일시정지 안되게 수정 필요
+### 2/19 time 일시정지 수정 중
+#### 플레이어만 timeScale 1로 설정했는데, ZombieSpawner.cs에서 merchantIsCollider 값이 Merchant.cs의 isCollider 값을 받아오지못함. 수정 필요

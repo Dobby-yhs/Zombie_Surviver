@@ -3,10 +3,14 @@ using UnityEngine;
 using UnityEngine.AI;
 
 // 좀비 게임 오브젝트를 주기적으로 생성
-public class ZombieSpawner_edit : MonoBehaviour {
+public class ZombieSpawner : MonoBehaviour {
     public Zombie zombiePrefab; // 생성할 좀비 원본 프리팹
 
-    public Merchant merchant;
+    public static bool GameIsPaused = false;
+
+    public MerchantSpawner merchant;
+
+    public GameObject playerObject;
 
     public ZombieStat zombieStat;
     public LightZombieStat lightzombieStat;
@@ -20,50 +24,87 @@ public class ZombieSpawner_edit : MonoBehaviour {
     private List<Zombie> zombiedogs = new List<Zombie>();
     private List<Zombie> elitezombies = new List<Zombie>();
     private float waveTime;// 현재 웨이브
+    private float checkTime_1;
+    private float checkTime_2;
+    private float checkTime_3;
+    private float checkTime_4;
+
     private int wave = 0;
 
     public int zombieKill = 0;
 
     private int spawnCount = 0;
 
-    private void Start() {
-        waveTime = Time.time;
-
+    private void Start() 
+    {
+        waveTime = 0.0f;
     }
 
-    private void Update() {
-        // 게임 오버 상태일때는 생성하지 않음
-        if (GameManager.instance != null && GameManager.instance.isGameover)
+    private void Update() 
+    {
+        if (Time.timeScale == 0.0f)
         {
-            return;
+            Debug.Log("0.0f!");
         }
-
-        // 좀비를 20마리 정도 물리친 경우 다음 스폰 실행
-        if (zombies.Count <= 5)
+        else
         {
-            SpawnWave();
-        }
+            waveTime += 1.0f / Time.deltaTime;
 
-        // 일정 시간 지난 후 좀비 스탯 증가시키는 부분
-        if (waveTime >= 10f) {
-            lightzombieStat.damage += 5;
-            zombieStat.damage += 5;
-            zombiedogStat.damage += 5;
-            elitezombieStat.damage += 5;
-        }
+            // Debug.Log("waveTime : " + waveTime);
 
-        if (merchant.merchant.activeSelf == true)
-        {
-            int zombieCount = spawnCount - zombieKill;
-
-            PauseZombies();
-
-            if (merchant.merchant.activeSelf == false)
+        // 4초에 한번씩 생성
+            if (waveTime % 3.0f == 0)
             {
+                CreateZombie();
+            }
+
+            // 게임 오버 상태일때는 생성하지 않음
+            if (GameManager.instance != null && GameManager.instance.isGameover)
+            {
+                return;
+            }
+
+            
+                
+            if (merchant.isSpawned == true)
+            {
+                if (!GameIsPaused)
+                {
+                    Debug.Log("Pause!");
+                    // int zombieCount = spawnCount - zombieKill;  // ??
+                    PauseZombies();
+                }
+            }
+
+            // if (Input.GetKeyDown(KeyCode.P)) {
+            //     Resumezombies();
+            // }
+
+            if (merchant.isSpawned == false)
+            {
+                Debug.Log("Resume");
                 Resumezombies();
             }
+            
         }
 
+        
+
+        // 좀비를 20마리 정도 물리친 경우 다음 스폰 실행
+        // if (zombies.Count <= 5)
+        // {
+        //     SpawnWave();
+        // }
+
+        // 일정 시간 지난 후 좀비 스탯 증가시키는 부분
+        // if (waveTime >= 10f) {
+        //     lightzombieStat.damage += 5;
+        //     zombieStat.damage += 5;
+        //     zombiedogStat.damage += 5;
+        //     elitezombieStat.damage += 5;
+        // }
+
+        
         // UI 갱신
         // UpdateUI();
     }
@@ -77,81 +118,19 @@ public class ZombieSpawner_edit : MonoBehaviour {
     */
     // 현재 웨이브에 맞춰 좀비들을 생성
 
-    private void PauseZombies() {
-        // foreach (Zombie zombie in lightzombies)
-        // {
-        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-        //     if (navMeshAgent != null)
-        //     {
-        //         navMeshAgent.enabled = false;
-        //     }
-        // }
+    private void PauseZombies() 
+    {
+        Time.timeScale = 0.0f;
 
-        // foreach (Zombie zombie in zombies)
-        // {
-        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-        //     if (navMeshAgent != null)
-        //     {
-        //         navMeshAgent.enabled = false;
-        //     }
-        // }
+        // player 오브젝트 unscaledDeltaTime 확인
 
-        // foreach (Zombie zombie in zombiedogs)
-        // {
-        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-        //     if (navMeshAgent != null)
-        //     {
-        //         navMeshAgent.enabled = false;
-        //     }
-        // }
-
-        // foreach (Zombie zombie in elitezombies)
-        // {
-        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-        //     if (navMeshAgent != null)
-        //     {
-        //         navMeshAgent.enabled = false;
-        //     }
-        // }
+        GameIsPaused = true;
     }
 
-    private void Resumezombies() {
-        
-        // foreach (Zombie zombie in lightzombies)
-        // {
-        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-        //     if (navMeshAgent != null)
-        //     {
-        //         navMeshAgent.enabled = true;
-        //     }
-        // }
-
-        // foreach (Zombie zombie in zombies)
-        // {
-        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-        //     if (navMeshAgent != null)
-        //     {
-        //         navMeshAgent.enabled = true;
-        //     }
-        // }
-
-        // foreach (Zombie zombie in zombiedogs)
-        // {
-        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-        //     if (navMeshAgent != null)
-        //     {
-        //         navMeshAgent.enabled = true;
-        //     }
-        // }
-
-        // foreach (Zombie zombie in elitezombies)
-        // {
-        //     NavMeshAgent navMeshAgent = zombie.GetComponent<NavMeshAgent>();
-        //     if (navMeshAgent != null)
-        //     {
-        //         navMeshAgent.enabled = true;
-        //     }
-        // }
+    private void Resumezombies() 
+    {
+        Time.timeScale = 1.0f;
+        GameIsPaused = false;    
     }
 
     private void SpawnWave() {
