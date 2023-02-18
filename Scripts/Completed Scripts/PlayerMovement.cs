@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
         //입력된 벡터의 값 결정
         moveDistance.Set(playerInput.rightleft, 0, playerInput.frontback);
         //벡터의 정규화 과정
-        moveDistance = moveDistance.normalized * moveSpeed * Time.deltaTime;
+        moveDistance = moveDistance.normalized * moveSpeed * Time.unscaledDeltaTime;
         // 리지드바디를 통해 게임 오브젝트 위치 변경
         playerRigidbody.MovePosition(playerRigidbody.position + moveDistance);
     }

@@ -39,4 +39,9 @@ public class Merchant : MonoBehaviour
             playerInput.DisableInput();
         }        
     }
+
+    public void Active()
+    {
+        merchant.SetActive(true);
+    }
 }

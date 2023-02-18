@@ -14,7 +14,7 @@ public class MerchantSpawner : MonoBehaviour
 
     public float maxDistance = 5f; // 플레이어 위치로부터 상인이 스폰될 최대 반경
 
-    private bool isSpawned = false;
+    public bool isSpawned = false;
 
     public ZombieSpawner zombie;   // zombieKill
 
@@ -24,12 +24,13 @@ public class MerchantSpawner : MonoBehaviour
         if (zombie.zombieKill == 1 && !isSpawned)
         {
             Spawn();
+            merchant.Active();
             isSpawned = true;
             Debug.Log("merchant spawn!");
         }
     }
 
-    private void Spawn()
+    private void Spawn()    
     {
         Vector3 spawnPosition = GetRandomPointOnNavMesh(playerTransform.position, maxDistance);
         // spawnPosition += Vector3.up;

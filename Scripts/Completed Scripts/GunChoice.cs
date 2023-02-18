@@ -40,10 +40,6 @@ public class GunChoice : MonoBehaviour
         gun.SwitchGun(gun.currentGunIndex);
 
         Debug.Log(gun.currentGunIndex);
-
-        pistolObject.SetActive(false);
-        rifleObject.SetActive(true);
-        sniperObject.SetActive(false);
     }
 
 
@@ -54,9 +50,5 @@ public class GunChoice : MonoBehaviour
         gun.SwitchGun(gun.currentGunIndex);
 
         Debug.Log(gun.currentGunIndex);
-
-        pistolObject.SetActive(false);
-        rifleObject.SetActive(false);
-        sniperObject.SetActive(true);
     }
 }
