@@ -8,8 +8,6 @@ public class ZombieSpawner : MonoBehaviour {
 
     public static bool GameIsPaused = false;
 
-    public MerchantSpawner merchant;
-
     public GameObject playerObject;
 
     public ZombieStat zombieStat;
@@ -35,9 +33,29 @@ public class ZombieSpawner : MonoBehaviour {
 
     private int spawnCount = 0;
 
+    bool merchantIsCollide;
+
+
     private void Start() 
     {
-        waveTime = 0.0f;
+        waveTime = Time.deltaTime;
+
+        InvokeRepeating("CreateZombie", 0f, 3f);
+    }
+
+    private void OnEnable() 
+    {
+        Merchant.IsCollideChanged += OnMerchantIsCollideChanged;
+    }
+
+    private void OnDisable() 
+    {   
+        Merchant.IsCollideChanged -= OnMerchantIsCollideChanged;
+    }
+
+    private void OnMerchantIsCollideChanged(bool value)
+    {
+        merchantIsCollide = value;
     }
 
     private void Update() 
@@ -45,44 +63,31 @@ public class ZombieSpawner : MonoBehaviour {
         if (Time.timeScale == 0.0f)
         {
             Debug.Log("0.0f!");
+
+            if (merchantIsCollide == false)
+            {
+                Debug.Log("Resume");
+                Resumezombies();
+            }
         }
         else
-        {
-            waveTime += 1.0f / Time.deltaTime;
-
-            // Debug.Log("waveTime : " + waveTime);
-
-        // 4초에 한번씩 생성
-            if (waveTime % 3.0f == 0)
+        {                    
+            Debug.Log(merchantIsCollide);
+                
+            if (merchantIsCollide == true)
             {
-                CreateZombie();
-            }
+                Debug.Log("좀비 스포너 collide true 체크 완료");
+                Debug.Log("Pause!");
+                PauseZombies();
+                //}
+            }     
+
 
             // 게임 오버 상태일때는 생성하지 않음
             if (GameManager.instance != null && GameManager.instance.isGameover)
             {
                 return;
-            }
-
-            
-                
-            if (merchant.isSpawned == true)
-            {
-                Debug.Log("Pause!");
-                // int zombieCount = spawnCount - zombieKill;  // ??
-                PauseZombies();
-            }
-
-            if (Input.GetKeyDown(KeyCode.P)) {
-                Resumezombies();
-            }
-
-            if (merchant.isSpawned == false)
-            {
-                Debug.Log("Resume");
-                Resumezombies();
-            }
-            
+            } 
         }
 
         
@@ -119,8 +124,8 @@ public class ZombieSpawner : MonoBehaviour {
     {
         Time.timeScale = 0.0f;
 
+        Debug.Log(Time.timeScale);
         // player 오브젝트 unscaledDeltaTime 확인
-        
 
         GameIsPaused = true;
     }

@@ -1,3 +1,4 @@
+using System;   // for Action
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,9 @@ public class Merchant : MonoBehaviour
 
     private PlayerInput playerInput;
 
-    public bool isCollide;
+    public static event Action<bool> IsCollideChanged;
+
+    public bool isCollide = false;
 
 
     private void Start()
@@ -24,7 +27,9 @@ public class Merchant : MonoBehaviour
         if (testButton.activeSelf == true) 
         {
             isCollide = true;
-            //Debug.Log(isCollide);
+            IsCollideChanged?.Invoke(isCollide);
+
+            Debug.Log("isCollide");
 
             if (Input.GetKeyDown(KeyCode.V)) {
                 testButton.SetActive(false);    // 상점 UI 비활성화
@@ -33,6 +38,7 @@ public class Merchant : MonoBehaviour
                 playerInput.EnableInput();
 
                 isCollide = false;
+                IsCollideChanged?.Invoke(isCollide);
                 //Debug.Log(isCollide);
             }
         }

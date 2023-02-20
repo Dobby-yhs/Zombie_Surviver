@@ -36,3 +36,5 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### 플레이어만 일시정지 안되게 수정 필요
 ### 2/19 time 일시정지 수정 중
 #### 플레이어만 timeScale 1로 설정했는데, ZombieSpawner.cs에서 merchantIsCollider 값이 Merchant.cs의 isCollider 값을 받아오지못함. 수정 필요
+### 2/21 time 일시정지 수정 및 좀비 스폰 방식 변경 완료
+#### waveTime UI 수정 필요, 
