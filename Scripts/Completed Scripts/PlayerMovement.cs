@@ -5,7 +5,7 @@ using UnityEngine;
 // 플레이어 캐릭터를 사용자 입력에 따라 움직이는 스크립트
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f; // 앞뒤 움직임의 속도
+    public float moveSpeed; // 앞뒤 움직임의 속도
     public float rotateSpeed = 180f; // 좌우 회전 속도
 
     private Animator playerAnimator; // 플레이어 캐릭터의 애니메이터
@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
+        moveSpeed = PlayerPrefs.GetFloat("SavedSpeed", 5f);
         floorMask = LayerMask.GetMask("Floor");
         // 사용할 컴포넌트들의 참조를 가져오기
         playerInput = GetComponent<PlayerInput>();
@@ -34,13 +35,14 @@ public class PlayerMovement : MonoBehaviour
     // FixedUpdate는 물리 갱신 주기에 맞춰 실행됨
     private void FixedUpdate()
     {
+        
         // 앞뒤 움직임 실행
         Move();
         Turning();
 
         // 입력값에 따라 애니메이터의 Move 파라미터 값을 변경
         playerAnimator.SetFloat("Move", playerInput.frontback);
-        playerAnimator.SetFloat("Move", playerInput.rightleft);
+        //playerAnimator.SetFloat("Move", playerInput.rightleft);
     }
 
     // 입력값에 따라 캐릭터를 앞뒤로 움직임
