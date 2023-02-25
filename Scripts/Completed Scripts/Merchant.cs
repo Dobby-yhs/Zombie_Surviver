@@ -2,13 +2,12 @@ using System;   // for Action
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI; // 내비메쉬 관련 코드
 
 public class Merchant : MonoBehaviour
 {
     public GameObject merchant;
 
-    public GameObject testButton;
+    public GameObject merchantUI;
 
     private PlayerInput playerInput;
 
@@ -16,30 +15,27 @@ public class Merchant : MonoBehaviour
 
     public bool isCollide = false;
 
-
+    
     private void Start()
     {
         playerInput = GameObject.FindObjectOfType<PlayerInput>();
     }
 
-    private void Update()
+    private void Update() 
     {
-        if (testButton.activeSelf == true) 
+        if (isCollide == true)
         {
-            isCollide = true;
             IsCollideChanged?.Invoke(isCollide);
 
-            Debug.Log("isCollide");
-
-            if (Input.GetKeyDown(KeyCode.V)) {
-                testButton.SetActive(false);    // 상점 UI 비활성화
-                // Destroy(merchant);
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                merchantUI.SetActive(false);
                 merchant.SetActive(false);
+                
                 playerInput.EnableInput();
 
                 isCollide = false;
                 IsCollideChanged?.Invoke(isCollide);
-                //Debug.Log(isCollide);
             }
         }
     }
@@ -48,21 +44,11 @@ public class Merchant : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Collision!");
-            
-            testButton.SetActive(true);     // 상점 UI 활성화
+            merchantUI.SetActive(true);
             playerInput.DisableInput();
-        }        
+            isCollide = true;
+        }
     }
-
-    // private void OnCollisionExit(Collision collision)
-    // {
-    //     if (collision.gameObject.CompareTag("Player"))
-    //     {
-    //         isCollide = false;
-    //         Debug.Log(isCollide);
-    //     }
-    // }
 
     public void Active()
     {

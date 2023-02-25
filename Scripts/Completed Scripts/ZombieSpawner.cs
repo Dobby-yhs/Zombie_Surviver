@@ -11,15 +11,22 @@ public class ZombieSpawner : MonoBehaviour {
     public Zombie zombiePrefab;
 
     public LightZombie lightzombiePrefab;
+    public ZombieDog zombiedogPrefab;
+    public EliteZombie elitezombiePrefab;
 
     public Transform[] spawnPoints; // 좀비 AI를 소환할 위치들
 
     private List<Zombie> zombies = new List<Zombie>(); // 생성된 좀비들을 담는 리스트
     private List<LightZombie> lightzombies = new List<LightZombie>();
+    private List<ZombieDog> zombiedogs = new List<ZombieDog>();
+    private List<EliteZombie> elitezombies = new List<EliteZombie>();
 
 
     public ZombieStat zombieStat;
     public LightZombieStat lightzombieStat;
+    public ZombieDogStat zombiedogStat;
+    public EliteZombieStat elitezombieStat;
+
 
     private float waveTime;
     private int wave; // 현재 웨이브
@@ -58,15 +65,19 @@ public class ZombieSpawner : MonoBehaviour {
         {
             if (merchantIsCollide == false)
             {
+                Debug.Log("ResumeZombie!!!!!!!!!!!!!!!!!");
                 ResumeZombies();
             }
         }
 
         else
         {
+            Debug.Log(merchantIsCollide);
             if (merchantIsCollide == true)
             {
                 PauseZombies();
+                Debug.Log(Time.timeScale);
+                Debug.Log(merchantIsCollide);
             }
 
             if (GameManager.instance != null && GameManager.instance.isGameover)
@@ -76,9 +87,7 @@ public class ZombieSpawner : MonoBehaviour {
 
             // UI 갱신
             UpdateUI();
-        }
-        // 게임 오버 상태일때는 생성하지 않음
-        
+        }        
     }
 
     // 웨이브 정보를 UI로 표시
@@ -95,6 +104,10 @@ public class ZombieSpawner : MonoBehaviour {
     private void ResumeZombies()
     {
         Time.timeScale = 1.0f;
+        
+
+        Debug.Log(Time.timeScale);
+        Debug.Log(merchantIsCollide);
     }
 
     // 좀비를 생성하고 생성한 좀비에게 추적할 대상을 할당
@@ -136,5 +149,41 @@ public class ZombieSpawner : MonoBehaviour {
         lightzombie.onDeath += () => GameManager.instance.AddScore(100);
 
         lightzombie.onDeath += () => zombieKill++;
+    }
+
+    private void CreateZombieDog() 
+    {
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+        ZombieDog zombiedog = Instantiate(zombiedogPrefab, spawnPoint.position, spawnPoint.rotation);
+
+        zombiedog.ZombieSetup(zombiedogStat);
+        zombiedogs.Add(zombiedog);
+
+        zombiedog.onDeath += () => zombiedogs.Remove(zombiedog);
+        
+        zombiedog.onDeath += () => Destroy(zombiedog.gameObject, 10f);
+        
+        zombiedog.onDeath += () => GameManager.instance.AddScore(100);
+
+        zombiedog.onDeath += () => zombieKill++;
+    }
+
+    private void CreateEliteZombie() 
+    {
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+        EliteZombie elitezombie = Instantiate(elitezombiePrefab, spawnPoint.position, spawnPoint.rotation);
+
+        elitezombie.ZombieSetup(elitezombieStat);
+        elitezombies.Add(elitezombie);
+
+        elitezombie.onDeath += () => elitezombies.Remove(elitezombie);
+        
+        elitezombie.onDeath += () => Destroy(elitezombie.gameObject, 10f);
+        
+        elitezombie.onDeath += () => GameManager.instance.AddScore(100);
+
+        elitezombie.onDeath += () => zombieKill++;
     }
 }
