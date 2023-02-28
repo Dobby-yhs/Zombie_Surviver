@@ -11,6 +11,8 @@ public class Merchant : MonoBehaviour
 
     private PlayerInput playerInput;
 
+    public IngameUpgrade exitbutton;
+
     public static event Action<bool> IsCollideChanged;
 
     public bool isCollide = false;
@@ -27,8 +29,9 @@ public class Merchant : MonoBehaviour
         {
             IsCollideChanged?.Invoke(isCollide);
 
-            if (Input.GetKeyDown(KeyCode.V))
+            if (exitbutton.exit)
             {
+                exitbutton.ExitButton();
                 merchantUI.SetActive(false);
                 merchant.SetActive(false);
                 

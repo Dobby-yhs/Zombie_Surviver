@@ -42,3 +42,5 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### LightZombie 애니메이션 처리 확인 및 time 일시 정지 확인 필요
 ### 2/25 time 일시정지 수정 완료 및 모든 좀비 스크립트 추가 완료
 #### 스크립트 각 좀비에 적용 필요
+### 2/28 상인 UI 추가 완료 및 모든 좀비 적용 완료
+#### 스탯 변경과 변경된 스탯 적용, 밸런스 조정 필요

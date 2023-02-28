@@ -14,8 +14,7 @@ public class ZombieDog : LivingEntity
     public AudioClip deathSound; // 사망 시 재생할 소리
     public AudioClip hitSound; // 피격 시 재생할 소리
 
-    private Animator lightzombieAnimator; // 애니메이터 컴포넌트
-    // 수정 필요!!!!
+    private Animator ZombieDogAnimator; // 애니메이터 컴포넌트
 
     private AudioSource zombieAudioPlayer; // 오디오 소스 컴포넌트
     private Renderer zombieRenderer; // 렌더러 컴포넌트
@@ -45,10 +44,7 @@ public class ZombieDog : LivingEntity
     private void Awake() {
         // 게임오브젝트로부터 사용할 컴포넌트
         navMeshAgent = GetComponent<NavMeshAgent>();
-
-        lightzombieAnimator = GetComponent<Animator>();
-        // 수정 필요!!!!
-
+        ZombieDogAnimator = GetComponent<Animator>();
         zombieAudioPlayer = GetComponent<AudioSource>();
         zombieRenderer = GetComponentInChildren<Renderer>();
     }
@@ -70,8 +66,7 @@ public class ZombieDog : LivingEntity
 
     private void Update() {
         // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
-        lightzombieAnimator.SetBool("HasTarget", hasTarget);
-        // 수정필요!!!!
+        ZombieDogAnimator.SetBool("HasTarget", hasTarget);
 
     }
 
@@ -144,9 +139,7 @@ public class ZombieDog : LivingEntity
         navMeshAgent.isStopped = true;
         navMeshAgent.enabled = false;
 
-        // 다른 종류 좀비 사망 애니메이션 확인해서 넣기
-        lightzombieAnimator.SetTrigger("Die");
-        // 수정필요!!!!
+        ZombieDogAnimator.SetTrigger("Death");
         
 
         //사망 효과음 재생
