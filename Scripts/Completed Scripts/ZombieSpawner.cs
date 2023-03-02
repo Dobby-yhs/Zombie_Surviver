@@ -79,37 +79,56 @@ public class ZombieSpawner : MonoBehaviour
         else
         {
             if (zombieKill <  5) {
-                zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 30f;
+                zombieSpawnTimes[0] = 3f;
+                zombieSpawnTimes[1] = 100f;
                 zombieSpawnTimes[2] = 100f;
                 zombieSpawnTimes[3] = 100f;
             }
             if (zombieKill >= 5 && zombieKill < 10) {
-                zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 30f;
+                zombieSpawnTimes[0] = 4f;
+                zombieSpawnTimes[1] = 4f;
                 zombieSpawnTimes[2] = 100f;
                 zombieSpawnTimes[3] = 100f;
             }
             if (zombieKill >= 20 && zombieKill < 30) {
-                zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 30f;
+                zombieSpawnTimes[0] = 3f;
+                zombieSpawnTimes[1] = 3f;
                 zombieSpawnTimes[2] = 100f;
                 zombieSpawnTimes[3] = 100f;           
             }
             if (zombieKill >= 30 && zombieKill < 40) {
-                zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 30f;
-                zombieSpawnTimes[2] = 100f;
+                zombieSpawnTimes[0] = 3f;
+                zombieSpawnTimes[1] = 3f;
+                zombieSpawnTimes[2] = 8f;
                 zombieSpawnTimes[3] = 100f;
             }
+            if (zombieKill >= 40 && zombieKill < 50) {
+                zombieSpawnTimes[0] = 3f;
+                zombieSpawnTimes[1] = 3f;
+                zombieSpawnTimes[2] = 6f;
+                zombieSpawnTimes[3] = 100f;
+            }
+            if (zombieKill >= 50 && zombieKill < 60) {
+                zombieSpawnTimes[0] = 3f;
+                zombieSpawnTimes[1] = 3f;
+                zombieSpawnTimes[2] = 6f;
+                zombieSpawnTimes[3] = 8f;
+            }
+            if (zombieKill >= 60 && zombieKill < 70) {
+                zombieSpawnTimes[0] = 3f;
+                zombieSpawnTimes[1] = 3f;
+                zombieSpawnTimes[2] = 5f;
+                zombieSpawnTimes[3] = 6f;
+            }
+
 
             for (int i = 0; i < 4; i++)
             {
                 if (Time.time - lastSpawnTime[i] > zombieSpawnTimes[i])
                 {
-                    Debug.Log("SpawnZombie");
-                    Debug.Log((Time.time - lastSpawnTime[0]) + ", " + (Time.time - lastSpawnTime[1]) + ", " + (Time.time - lastSpawnTime[2]) + ", " + (Time.time - lastSpawnTime[3]));
-                    Debug.Log(zombieSpawnTimes[0] + ", " + zombieSpawnTimes[1] + ", " + zombieSpawnTimes[2] + ", " + zombieSpawnTimes[3]);
+                    // Debug.Log("SpawnZombie");
+                    // Debug.Log((Time.time - lastSpawnTime[0]) + ", " + (Time.time - lastSpawnTime[1]) + ", " + (Time.time - lastSpawnTime[2]) + ", " + (Time.time - lastSpawnTime[3]));
+                    // Debug.Log(zombieSpawnTimes[0] + ", " + zombieSpawnTimes[1] + ", " + zombieSpawnTimes[2] + ", " + zombieSpawnTimes[3]);
                     SpawnZombie(i);
 
                     lastSpawnTime[i] = Time.time;

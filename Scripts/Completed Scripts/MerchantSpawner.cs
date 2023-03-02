@@ -9,7 +9,7 @@ public class MerchantSpawner : MonoBehaviour
 
     public Transform playerTransform;
 
-    public float maxDistance = 5f;
+    public float maxDistance = 10f;
 
     public bool isSpawned = false;
 
@@ -20,12 +20,28 @@ public class MerchantSpawner : MonoBehaviour
     
     private void Update()
     {
-        if (zombie.zombieKill == 1 && !isSpawned && spawnNum == 0)
+        if (zombie.zombieKill == 15 && !isSpawned && spawnNum == 0)
         {
             Spawn();
+            Debug.Log("Merchant Spawn!!");
             merchant.Active();
             isSpawned = true;
         }
+        if (zombie.zombieKill == 35 && !isSpawned && spawnNum == 1)
+        {
+            Spawn();
+            Debug.Log("Merchant Spawn!!");
+            merchant.Active();
+            isSpawned = true;
+        }
+        if (zombie.zombieKill == 50 && !isSpawned && spawnNum == 2)
+        {
+            Spawn();
+            Debug.Log("Merchant Spawn!!");
+            merchant.Active();
+            isSpawned = true;
+        }
+
         if (merchant.merchant)
         {
             if (merchant.merchant.activeSelf == false)
