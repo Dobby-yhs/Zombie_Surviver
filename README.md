@@ -46,3 +46,5 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### 스탯 변경과 변경된 스탯 적용, 밸런스 조정 필요
 ### 3/1 좀비 스포너 스크립트 수정 중
 #### get set 방식으로 zombieKill에 따른 시간 변화를 인지하게 하려 했지만 실패
+### 3/2 좀비 스포너 스크립트 수정 완료
+#### 시간 초 설정만 수정하면 됨

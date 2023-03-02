@@ -1,4 +1,4 @@
-﻿  using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,7 +11,6 @@ using Random = UnityEngine.Random;
 public class ZombieSpawner : MonoBehaviour
 {
     public Zombie zombiePrefab;
-
     public LightZombie lightzombiePrefab;
     public ZombieDog zombiedogPrefab;
     public EliteZombie elitezombiePrefab;
@@ -35,66 +34,9 @@ public class ZombieSpawner : MonoBehaviour
 
     public int zombieKill = 0;
 
-    public UnityEvent onTimeChanged;
+    public float[] zombieSpawnTimes = new float[4] { 5f, 5f, 5f, 5f };
+    private float[] lastSpawnTime = new float[4];
 
-    public float lightzombieTime = 10f;
-    public float zombieTime = 0f;
-    public float zombiedogTime = 0f;
-    public float elitezombieTime = 0f;
-
-    public float _lightzombieTime;
-    public float _zombieTime;
-    public float _zombiedogTime;
-    public float _elitezombieTime;
-
-
-    public float LightzombieTime
-    {
-        get { return _lightzombieTime; }
-        set{
-            if (_lightzombieTime != value)
-            {
-                _lightzombieTime = value;
-                onTimeChanged.Invoke();
-            }
-        }
-    }
-
-    public float ZombieTime
-    {
-        get { return _zombieTime; }
-        set{
-            if (_zombieTime != value)
-            {
-                _zombieTime = value;
-                onTimeChanged.Invoke();
-            }
-        }
-    }
-
-    public float ZombiedogTime
-    {
-        get { return _zombiedogTime; }
-        set{
-            if (_zombiedogTime != value)
-            {
-                _zombiedogTime = value;
-                onTimeChanged.Invoke();
-            }
-        }
-    }
-
-    public float ElitezombieTime
-    {
-        get { return _elitezombieTime; }
-        set{
-            if (_elitezombieTime != value)
-            {
-                _elitezombieTime = value;
-                onTimeChanged.Invoke();
-            }
-        }
-    }
 
     bool merchantIsCollide;
 
@@ -103,17 +45,10 @@ public class ZombieSpawner : MonoBehaviour
     {
         waveTime = Time.deltaTime;
 
-        LightzombieTime = lightzombieTime;
-        ZombieTime = zombieTime;
-        ZombiedogTime = zombiedogTime;
-        ElitezombieTime = elitezombieTime;
-
-
-
-        // InvokeRepeating("CreateLightZombie", 0f, LightzombieTime);
-        // InvokeRepeating("CreateZombie", 0f, ZombieTime);
-        // InvokeRepeating("CreateZombieDog", 0f, ZombiedogTime);
-        // InvokeRepeating("CreateEliteZombie", 0f, ElitezombieTime);
+        for (int i = 0 ; i < 4; i++)
+        {
+            lastSpawnTime[i] = Time.time;
+        }
     }
 
     private void OnEnable()
@@ -137,7 +72,6 @@ public class ZombieSpawner : MonoBehaviour
         {
             if (merchantIsCollide == false)
             {
-                Debug.Log("ResumeZombie!!!!!!!!!!!!!!!!!");
                 ResumeZombies();
             }
         }
@@ -145,29 +79,46 @@ public class ZombieSpawner : MonoBehaviour
         else
         {
             if (zombieKill <  5) {
-                LightzombieTime = 10f;
+                zombieSpawnTimes[0] = 5f;
+                zombieSpawnTimes[1] = 30f;
+                zombieSpawnTimes[2] = 100f;
+                zombieSpawnTimes[3] = 100f;
             }
             if (zombieKill >= 5 && zombieKill < 10) {
-                LightzombieTime = 4f;
-                ZombieTime = 6f;
+                zombieSpawnTimes[0] = 5f;
+                zombieSpawnTimes[1] = 30f;
+                zombieSpawnTimes[2] = 100f;
+                zombieSpawnTimes[3] = 100f;
             }
             if (zombieKill >= 20 && zombieKill < 30) {
-                LightzombieTime = 6f;
-                ZombieTime = 8f;
-                ZombiedogTime = 10f;              
+                zombieSpawnTimes[0] = 5f;
+                zombieSpawnTimes[1] = 30f;
+                zombieSpawnTimes[2] = 100f;
+                zombieSpawnTimes[3] = 100f;           
             }
             if (zombieKill >= 30 && zombieKill < 40) {
-                LightzombieTime = 4f;
-                ZombieTime = 6f;
-                ZombiedogTime = 8f;
-                ElitezombieTime = 10f;
+                zombieSpawnTimes[0] = 5f;
+                zombieSpawnTimes[1] = 30f;
+                zombieSpawnTimes[2] = 100f;
+                zombieSpawnTimes[3] = 100f;
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (Time.time - lastSpawnTime[i] > zombieSpawnTimes[i])
+                {
+                    Debug.Log("SpawnZombie");
+                    Debug.Log((Time.time - lastSpawnTime[0]) + ", " + (Time.time - lastSpawnTime[1]) + ", " + (Time.time - lastSpawnTime[2]) + ", " + (Time.time - lastSpawnTime[3]));
+                    Debug.Log(zombieSpawnTimes[0] + ", " + zombieSpawnTimes[1] + ", " + zombieSpawnTimes[2] + ", " + zombieSpawnTimes[3]);
+                    SpawnZombie(i);
+
+                    lastSpawnTime[i] = Time.time;
+                }
             }
 
             if (merchantIsCollide == true)
             {
                 PauseZombies();
-                Debug.Log(Time.timeScale);
-                Debug.Log(merchantIsCollide);
             }
 
             if (GameManager.instance != null && GameManager.instance.isGameover)
@@ -201,39 +152,26 @@ public class ZombieSpawner : MonoBehaviour
         Debug.Log(merchantIsCollide);
     }
 
-
-    private void OnTimeChanged()
+    private void SpawnZombie(int index)
     {
-        Debug.Log("실행!");
-        InvokeRepeating("CreateLightZombie", 0f, LightzombieTime);
-        InvokeRepeating("CreateZombie", 0f, ZombieTime);
-        InvokeRepeating("CreateZombieDog", 0f, ZombiedogTime);
-        InvokeRepeating("CreateEliteZombie", 0f, ElitezombieTime);
+        switch(index)
+        {
+            case 0: 
+                CreateLightZombie();
+                break;
+            case 1:
+                CreateZombie();
+                break;
+            case 2:
+                CreateZombieDog();
+                break;
+            case 3 :
+                CreateEliteZombie();
+                break;
+        }       
     }
 
 
-    // 좀비를 생성하고 생성한 좀비에게 추적할 대상을 할당
-    private void CreateZombie()
-    {
-        // 생성할 위치를 랜덤으로 결정
-        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
-
-        // 좀비 프리팹으로부터 좀비 생성
-        Zombie zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
-
-        zombie.ZombieSetup(zombieStat);
-        zombies.Add(zombie);
-
-        // 좀비의 onDeath 이벤트에 익명 메서드 등록
-        // 사망한 좀비를 리스트에서 제거
-        zombie.onDeath += () => zombies.Remove(zombie);
-        // 사망한 좀비를 10초 뒤에 파괴
-        zombie.onDeath += () => Destroy(zombie.gameObject, 10f);
-        // 좀비 사망 시 점수 상승
-        zombie.onDeath += () => GameManager.instance.AddScore(100);
-
-        zombie.onDeath += () => zombieKill++;
-    }
 
     private void CreateLightZombie()
     {
@@ -248,9 +186,24 @@ public class ZombieSpawner : MonoBehaviour
 
         lightzombie.onDeath += () => Destroy(lightzombie.gameObject, 10f);
 
-        lightzombie.onDeath += () => GameManager.instance.AddScore(100);
+        lightzombie.onDeath += () => GameManager.instance.AddScore(50);
 
         lightzombie.onDeath += () => zombieKill++;
+    }
+
+    private void CreateZombie()
+    {
+        Transform spawnPoint = spawnPoints[Random.Range(0, spawnPoints.Length)];
+
+        Zombie zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
+
+        zombie.ZombieSetup(zombieStat);
+        zombies.Add(zombie);
+
+        zombie.onDeath += () => zombies.Remove(zombie);
+        zombie.onDeath += () => Destroy(zombie.gameObject, 10f);
+        zombie.onDeath += () => GameManager.instance.AddScore(100);
+        zombie.onDeath += () => zombieKill++;
     }
 
     private void CreateZombieDog()
@@ -266,7 +219,7 @@ public class ZombieSpawner : MonoBehaviour
 
         zombiedog.onDeath += () => Destroy(zombiedog.gameObject, 10f);
 
-        zombiedog.onDeath += () => GameManager.instance.AddScore(100);
+        zombiedog.onDeath += () => GameManager.instance.AddScore(150);
 
         zombiedog.onDeath += () => zombieKill++;
     }
@@ -284,7 +237,7 @@ public class ZombieSpawner : MonoBehaviour
 
         elitezombie.onDeath += () => Destroy(elitezombie.gameObject, 10f);
 
-        elitezombie.onDeath += () => GameManager.instance.AddScore(100);
+        elitezombie.onDeath += () => GameManager.instance.AddScore(200);
 
         elitezombie.onDeath += () => zombieKill++;
     }
