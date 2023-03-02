@@ -44,3 +44,5 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### 스크립트 각 좀비에 적용 필요
 ### 2/28 상인 UI 추가 완료 및 모든 좀비 적용 완료
 #### 스탯 변경과 변경된 스탯 적용, 밸런스 조정 필요
+### 3/1 좀비 스포너 스크립트 수정 중
+#### get set 방식으로 zombieKill에 따른 시간 변화를 인지하게 하려 했지만 실패
