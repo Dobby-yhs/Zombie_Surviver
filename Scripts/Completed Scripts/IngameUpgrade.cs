@@ -41,9 +41,6 @@ public class IngameUpgrade : MonoBehaviour
 
         SelectedGun = PlayerPrefs.GetInt("SelectedGun", 0);
               
-        SavedCoin = PlayerPrefs.GetInt("SavedCoin", 0);
-        SavedCoin = gameManager.coin;
-
         if (SelectedGun == 0)
         {
             damage = pistolData.damage;
@@ -69,6 +66,15 @@ public class IngameUpgrade : MonoBehaviour
         }
     }
 
+    private void OnEnable() {
+        SavedCoin = PlayerPrefs.GetInt("SavedCoin", 0);
+        // SavedCoin = gameManager.coin;
+    }
+
+    private void OnDisable() {
+        PlayerPrefs.SetInt("SavedCoin", SavedCoin);
+    }
+
     private void Update()
     {
         
@@ -76,7 +82,7 @@ public class IngameUpgrade : MonoBehaviour
         {
             Coin.text = SavedCoin.ToString();
             Dmg.text = pistolData.damage.ToString();
-            Reload.text = pistolData.reloadTime.ToString("F1");
+            Reload.text = pistolData.reloadTime.ToString("F2");
             MaxMag.text = pistolData.magCapacity.ToString();
             BulletSpeed.text = pistolData.timeBetFire.ToString("F2");
         }
@@ -85,7 +91,7 @@ public class IngameUpgrade : MonoBehaviour
         {
             Coin.text = SavedCoin.ToString();
             Dmg.text = rifleData.damage.ToString();
-            Reload.text = rifleData.reloadTime.ToString("F1");
+            Reload.text = rifleData.reloadTime.ToString("F2");
             MaxMag.text = rifleData.magCapacity.ToString();
             BulletSpeed.text = rifleData.timeBetFire.ToString("F2");
         }
@@ -94,7 +100,7 @@ public class IngameUpgrade : MonoBehaviour
         {
             Coin.text = SavedCoin.ToString();
             Dmg.text = sniperData.damage.ToString();
-            Reload.text = sniperData.reloadTime.ToString("F1");
+            Reload.text = sniperData.reloadTime.ToString("F2");
             MaxMag.text = sniperData.magCapacity.ToString();
             BulletSpeed.text = sniperData.timeBetFire.ToString("F2");
         }
@@ -107,7 +113,7 @@ public class IngameUpgrade : MonoBehaviour
             if (SavedCoin > 0)
             {
                 PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
-                pistolData.damage += 2;     // 이렇게 어거지로해야하는건지.. 방법을 모르겠음.
+                pistolData.damage += 2;
                 damage += 2;
                 IsChanged_D?.Invoke(damage);
             }

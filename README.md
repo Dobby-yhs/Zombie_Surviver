@@ -49,3 +49,5 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 ### 3/2 좀비 스포너 스크립트 수정 완료
 #### 시간 초 설정만 수정하면 됨
 ### 3/3 상인 UI 적용 수정 완료 및 밸런스 조정
+### 3/3 상인 충돌 문제 수정 완료 및 밸런스 조정, 상인 UI 오류 발견 및 수정 중
+#### GameManager.cs의 coin이 초기화가 안되는 오류

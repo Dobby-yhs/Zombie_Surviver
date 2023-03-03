@@ -78,13 +78,13 @@ public class ZombieSpawner : MonoBehaviour
 
         else
         {
-            if (zombieKill <  5) {
+            if (zombieKill <  10) {
                 zombieSpawnTimes[0] = 3f;
                 zombieSpawnTimes[1] = 100f;
                 zombieSpawnTimes[2] = 100f;
                 zombieSpawnTimes[3] = 100f;
             }
-            if (zombieKill >= 5 && zombieKill < 10) {
+            if (zombieKill >= 10 && zombieKill < 20) {
                 zombieSpawnTimes[0] = 4f;
                 zombieSpawnTimes[1] = 4f;
                 zombieSpawnTimes[2] = 100f;

@@ -5,7 +5,9 @@ using UnityEngine.AI;
 
 public class MerchantSpawner : MonoBehaviour 
 {
-    public Merchant merchant;
+    // public Merchant merchant;
+    public GameObject merchantPrefab;
+    private GameObject merchant;
 
     public Transform playerTransform;
 
@@ -24,27 +26,27 @@ public class MerchantSpawner : MonoBehaviour
         {
             Spawn();
             Debug.Log("Merchant Spawn!!");
-            merchant.Active();
+            merchant.SetActive(true);
             isSpawned = true;
         }
         if (zombie.zombieKill == 35 && !isSpawned && spawnNum == 1)
         {
             Spawn();
             Debug.Log("Merchant Spawn!!");
-            merchant.Active();
+            merchant.SetActive(true);
             isSpawned = true;
         }
         if (zombie.zombieKill == 50 && !isSpawned && spawnNum == 2)
         {
             Spawn();
             Debug.Log("Merchant Spawn!!");
-            merchant.Active();
+            merchant.SetActive(true);
             isSpawned = true;
         }
 
-        if (merchant.merchant)
+        if (merchant != null)
         {
-            if (merchant.merchant.activeSelf == false)
+            if (merchant.activeSelf == false)
             {
                 isSpawned = false;
             }
@@ -55,7 +57,14 @@ public class MerchantSpawner : MonoBehaviour
     {
         Vector3 spawnPosition = GetRandomPointOnNavMesh(playerTransform.position, maxDistance);
 
-        merchant = Instantiate(merchant, spawnPosition, Quaternion.identity);
+        if ( merchant != null)
+        {
+            Destroy(merchant);
+        }
+
+        GameObject newMerchant = Instantiate(merchantPrefab, spawnPosition, Quaternion.identity);
+
+        merchant = newMerchant;
 
         spawnNum += 1;
     }
