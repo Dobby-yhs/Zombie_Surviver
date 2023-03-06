@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour {
 
     
     private int score = 0; // 현재 게임 점수
-    public int coin = 0;
+    public int coin;
+    public int usedcoin;
     public bool isGameover { get; private set;} // 게임 오버 상태
     
 
@@ -38,13 +39,20 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
         }
         
-        coin = PlayerPrefs.GetInt("SavedCoin");
+        
     }
 
     private void Start() {
         // 플레이어 캐릭터의 사망 이벤트 발생시 게임 오버
         FindObjectOfType<PlayerHealth>().onDeath += EndGame;
         UIManager.instance.UpdateGunText();
+
+        coin = PlayerPrefs.GetInt("SavedCoin");
+        
+    }
+
+    private void Update() {
+        usedcoin = PlayerPrefs.GetInt("UsedCoin");
     }
 
    
@@ -69,10 +77,23 @@ public class GameManager : MonoBehaviour {
         if (!isGameover)
         {
             coin += newCoin;
+            
+            RemoveCoin();
+
+            Debug.Log("usedcoin : " + usedcoin);
+            Debug.Log("newCoin : " + newCoin);
+            Debug.Log("coin : " + coin);
+            PlayerPrefs.SetInt("SavedCoin", coin);
             // 점수 UI 텍스트 갱신
             UIManager.instance.UpdateCoinText(coin);
 
         }
+    }
+
+    public void RemoveCoin() {
+        coin -= usedcoin;
+        usedcoin = 0;
+        PlayerPrefs.SetInt("UsedCoin", usedcoin);
     }
 
     // 게임 오버 처리

@@ -20,7 +20,8 @@ public class IngameUpgrade : MonoBehaviour
     private int SelectedGun;
 
     public GameManager gameManager;
-    private int SavedCoin = 0;
+    private int SavedCoin;
+    public int UsedCoin;
 
     public TMP_Text Coin;
     public TMP_Text Dmg;
@@ -40,6 +41,10 @@ public class IngameUpgrade : MonoBehaviour
         gameManager = GameObject.FindObjectOfType<GameManager>();
 
         SelectedGun = PlayerPrefs.GetInt("SelectedGun", 0);
+
+        SavedCoin = PlayerPrefs.GetInt("SavedCoin");
+        UsedCoin = PlayerPrefs.GetInt("UsedCoin", 0);
+        // SavedCoin = gameManager.coin;
               
         if (SelectedGun == 0)
         {
@@ -64,15 +69,6 @@ public class IngameUpgrade : MonoBehaviour
             timeBetFire = sniperData.timeBetFire;
             reloadTime = sniperData.reloadTime;
         }
-    }
-
-    private void OnEnable() {
-        SavedCoin = PlayerPrefs.GetInt("SavedCoin", 0);
-        // SavedCoin = gameManager.coin;
-    }
-
-    private void OnDisable() {
-        PlayerPrefs.SetInt("SavedCoin", SavedCoin);
     }
 
     private void Update()
@@ -106,6 +102,10 @@ public class IngameUpgrade : MonoBehaviour
         }
     }
 
+    private void OnDisable() {
+        PlayerPrefs.Save();
+    }
+
     public void DamageUpgrade()
     {
         if (SelectedGun == 0)
@@ -113,6 +113,7 @@ public class IngameUpgrade : MonoBehaviour
             if (SavedCoin > 0)
             {
                 PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
+                PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
                 pistolData.damage += 2;
                 damage += 2;
                 IsChanged_D?.Invoke(damage);
@@ -128,6 +129,7 @@ public class IngameUpgrade : MonoBehaviour
             if (SavedCoin > 0)
             {
                 PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
+                PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
                 rifleData.damage += 2;
                 damage += 2;
                 IsChanged_D?.Invoke(damage);
@@ -143,6 +145,7 @@ public class IngameUpgrade : MonoBehaviour
             if (SavedCoin > 0)
             {
                 PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
+                PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
                 sniperData.damage += 2;
                 damage += 2;
                 IsChanged_D?.Invoke(damage);
@@ -163,8 +166,9 @@ public class IngameUpgrade : MonoBehaviour
                 if(pistolData.reloadTime > 0.1f) 
                 { 
                     PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
-                    pistolData.reloadTime -= 0.005f;
-                    reloadTime -= 0.005f;
+                    PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
+                    pistolData.reloadTime -= 0.03f;
+                    reloadTime -= 0.03f;
                     IsChanged_R?.Invoke(reloadTime);
                 }
                 else
@@ -185,8 +189,9 @@ public class IngameUpgrade : MonoBehaviour
                 if (rifleData.reloadTime > 0.1f)
                 {
                     PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
-                    rifleData.reloadTime -= 0.005f;
-                    reloadTime -= 0.005f;
+                    PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
+                    rifleData.reloadTime -= 0.03f;
+                    reloadTime -= 0.03f;
                     IsChanged_R?.Invoke(reloadTime);
                 }
                 else
@@ -206,8 +211,9 @@ public class IngameUpgrade : MonoBehaviour
             {
                 if (sniperData.reloadTime > 0.1f) { 
                     PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
-                    sniperData.reloadTime -= 0.005f;
-                    reloadTime -= 0.005f;
+                    PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
+                    sniperData.reloadTime -= 0.03f;
+                    reloadTime -= 0.03f;
                     IsChanged_R?.Invoke(reloadTime);
                 }
                 else
@@ -230,6 +236,7 @@ public class IngameUpgrade : MonoBehaviour
             if (SavedCoin > 0)
             {
                 PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
+                PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
                 pistolData.magCapacity += 2;
                 magCapacity += 2;
                 IsChanged_M?.Invoke(magCapacity);
@@ -245,6 +252,7 @@ public class IngameUpgrade : MonoBehaviour
             if (SavedCoin > 0)
             {
                 PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
+                PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
                 rifleData.magCapacity += 2;
                 magCapacity += 2;
                 IsChanged_M?.Invoke(magCapacity);
@@ -260,6 +268,7 @@ public class IngameUpgrade : MonoBehaviour
             if (SavedCoin > 0)
             {
                 PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
+                PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
                 sniperData.magCapacity += 2;
                 magCapacity += 2;
                 IsChanged_M?.Invoke(magCapacity);
@@ -280,8 +289,9 @@ public class IngameUpgrade : MonoBehaviour
                 if (pistolData.timeBetFire > 0.01f)
                 {
                     PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
-                    pistolData.timeBetFire -= 0.005f;
-                    timeBetFire -= 0.005f;
+                    PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
+                    pistolData.timeBetFire -= 0.03f;
+                    timeBetFire -= 0.03f;
                     IsChanged_T?.Invoke(timeBetFire);
                 }
                 else
@@ -301,8 +311,9 @@ public class IngameUpgrade : MonoBehaviour
             {
                 if (rifleData.timeBetFire > 0.01f) { 
                     PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
-                    rifleData.timeBetFire -= 0.005f;
-                    timeBetFire -= 0.005f;
+                    PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
+                    rifleData.timeBetFire -= 0.03f;
+                    timeBetFire -= 0.03f;
                     IsChanged_T?.Invoke(timeBetFire);
                 }
                 else
@@ -323,8 +334,9 @@ public class IngameUpgrade : MonoBehaviour
                 if (sniperData.timeBetFire > 0.01f)
                 {
                     PlayerPrefs.SetInt("SavedCoin", SavedCoin -= 1);
-                    sniperData.timeBetFire -= 0.005f;
-                    timeBetFire -= 0.005f;
+                    PlayerPrefs.SetInt("UsedCoin", UsedCoin += 1);
+                    sniperData.timeBetFire -= 0.03f;
+                    timeBetFire -= 0.03f;
                     IsChanged_T?.Invoke(timeBetFire);
                 }
                 else
