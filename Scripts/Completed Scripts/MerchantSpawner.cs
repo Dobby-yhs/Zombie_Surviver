@@ -25,21 +25,18 @@ public class MerchantSpawner : MonoBehaviour
         if (zombie.zombieKill == 15 && !isSpawned && spawnNum == 0)
         {
             Spawn();
-            Debug.Log("Merchant Spawn!!");
             merchant.SetActive(true);
             isSpawned = true;
         }
-        if (zombie.zombieKill == 35 && !isSpawned && spawnNum == 1)
+        if (zombie.zombieKill == 50 && !isSpawned && spawnNum == 1)
         {
             Spawn();
-            Debug.Log("Merchant Spawn!!");
             merchant.SetActive(true);
             isSpawned = true;
         }
-        if (zombie.zombieKill == 50 && !isSpawned && spawnNum == 2)
+        if (zombie.zombieKill == 100 && !isSpawned && spawnNum == 2)
         {
             Spawn();
-            Debug.Log("Merchant Spawn!!");
             merchant.SetActive(true);
             isSpawned = true;
         }

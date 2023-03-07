@@ -47,15 +47,9 @@ public class Merchant : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Collide!!");
             merchantUI.SetActive(true);
             playerInput.DisableInput();
             isCollide = true;
         }
     }
-
-    // public void Active()
-    // {
-    //     merchant.SetActive(true);
-    // }
 }

@@ -15,6 +15,8 @@ public class ZombieSpawner : MonoBehaviour
     public ZombieDog zombiedogPrefab;
     public EliteZombie elitezombiePrefab;
 
+    public GameObject EndUI;
+
     public Transform[] spawnPoints; // 좀비 AI를 소환할 위치들
 
     private List<Zombie> zombies = new List<Zombie>(); // 생성된 좀비들을 담는 리스트
@@ -29,7 +31,10 @@ public class ZombieSpawner : MonoBehaviour
     public EliteZombieStat elitezombieStat;
 
 
-    private float waveTime;
+    private float waveTime = 5 * 60;
+    private float wave_min;
+    private float wave_sec;
+
     private int wave; // 현재 웨이브
 
     public int zombieKill = 0;
@@ -43,12 +48,12 @@ public class ZombieSpawner : MonoBehaviour
 
     private void Start()
     {
-        waveTime = Time.deltaTime;
-
         for (int i = 0 ; i < 4; i++)
         {
             lastSpawnTime[i] = Time.time;
         }
+
+        EndUI.SetActive(false);
     }
 
     private void OnEnable()
@@ -78,6 +83,11 @@ public class ZombieSpawner : MonoBehaviour
 
         else
         {
+            waveTime -= Time.deltaTime;
+            wave_min = Mathf.Floor(waveTime / 60);
+            wave_sec = Mathf.RoundToInt(waveTime % 60);
+
+
             if (zombieKill <  10) {
                 zombieSpawnTimes[0] = 3f;
                 zombieSpawnTimes[1] = 100f;
@@ -126,9 +136,6 @@ public class ZombieSpawner : MonoBehaviour
             {
                 if (Time.time - lastSpawnTime[i] > zombieSpawnTimes[i])
                 {
-                    // Debug.Log("SpawnZombie");
-                    // Debug.Log((Time.time - lastSpawnTime[0]) + ", " + (Time.time - lastSpawnTime[1]) + ", " + (Time.time - lastSpawnTime[2]) + ", " + (Time.time - lastSpawnTime[3]));
-                    // Debug.Log(zombieSpawnTimes[0] + ", " + zombieSpawnTimes[1] + ", " + zombieSpawnTimes[2] + ", " + zombieSpawnTimes[3]);
                     SpawnZombie(i);
 
                     lastSpawnTime[i] = Time.time;
@@ -145,6 +152,11 @@ public class ZombieSpawner : MonoBehaviour
                 return;
             }
 
+            if (waveTime <= 0f)
+            {
+                Victory();
+            }
+
             // UI 갱신
             UpdateUI();
         }
@@ -154,7 +166,7 @@ public class ZombieSpawner : MonoBehaviour
     private void UpdateUI()
     {
         // 현재 웨이브와 남은 적 수 표시
-        UIManager.instance.UpdateWaveText(waveTime, zombieKill);
+        UIManager.instance.UpdateWaveText(wave_min, wave_sec, zombieKill);
     }
 
     private void PauseZombies()
@@ -166,8 +178,6 @@ public class ZombieSpawner : MonoBehaviour
     {
         Time.timeScale = 1.0f;
 
-
-        Debug.Log(Time.timeScale);
         Debug.Log(merchantIsCollide);
     }
 
@@ -190,7 +200,12 @@ public class ZombieSpawner : MonoBehaviour
         }       
     }
 
-
+    private void Victory()
+    {
+            Debug.Log("Victory!");
+            PauseZombies();
+            EndUI.SetActive(true);
+    }
 
     private void CreateLightZombie()
     {

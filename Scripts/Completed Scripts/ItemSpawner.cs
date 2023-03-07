@@ -8,46 +8,78 @@ public class ItemSpawner : MonoBehaviour {
 
     public float maxDistance = 10f; // 플레이어 위치로부터 아이템이 배치될 최대 반경
 
-    public float timeBetSpawnMax = 30f; // 최대 시간 간격
-    public float timeBetSpawnMin = 20f; // 최소 시간 간격
-    private float timeBetSpawn; // 생성 간격
+    public float timeHealthSpawnMax = 12f; // 최대 시간 간격
+    public float timeHealthSpawnMin = 8f; // 최소 시간 간격
+    private float timeHealthSpawn; // 생성 간격
 
-    private float lastSpawnTime; // 마지막 생성 시점
+    public float timeCoinSpawnMax = 6f;
+    public float timeCoinSpawnMin = 4f;
+    private float timeCoinSpawn;
+
+    private float lastHealthSpawnTime; // 마지막 생성 시점
+    private float lastCoinSpawnTime;
 
     private void Start() {
         // 생성 간격과 마지막 생성 시점 초기화
-        timeBetSpawn = Random.Range(timeBetSpawnMin, timeBetSpawnMax);
-        lastSpawnTime = 0;
+        timeHealthSpawn = Random.Range(timeHealthSpawnMin, timeHealthSpawnMax);
+        timeCoinSpawn = Random.Range(timeCoinSpawnMin, timeCoinSpawnMax);
+
+        lastHealthSpawnTime = 0;
+        lastCoinSpawnTime = 0;
     }
 
     // 주기적으로 아이템 생성 처리 실행
     private void Update() {
         // 현재 시점이 마지막 생성 시점에서 생성 주기 이상 지남
         // && 플레이어 캐릭터가 존재함
-        if (Time.time >= lastSpawnTime + timeBetSpawn && playerTransform != null)
+        if (Time.time >= lastHealthSpawnTime + timeHealthSpawn && playerTransform != null)
         {
             // 마지막 생성 시간 갱신
-            lastSpawnTime = Time.time;
+            lastHealthSpawnTime = Time.time;
             // 생성 주기를 랜덤으로 변경
-            timeBetSpawn = Random.Range(timeBetSpawnMin, timeBetSpawnMax);
+            timeHealthSpawn = Random.Range(timeHealthSpawnMin, timeHealthSpawnMax);
             // 아이템 생성 실행
-            Spawn();
+            HelathSpawn();
+        }
+
+        if (Time.time >= lastCoinSpawnTime + timeCoinSpawn && playerTransform != null)
+        {
+            // 마지막 생성 시간 갱신
+            lastCoinSpawnTime = Time.time;
+            // 생성 주기를 랜덤으로 변경
+            timeCoinSpawn = Random.Range(timeCoinSpawnMin, timeCoinSpawnMax);
+            // 아이템 생성 실행
+            CoinSpawn();
         }
     }
 
     // 실제 아이템 생성 처리
-    private void Spawn() {
+    private void HelathSpawn() {
         // 플레이어 근처에서 내비메시 위의 랜덤 위치 가져오기
         Vector3 spawnPosition = GetRandomPointOnNavMesh(playerTransform.position, maxDistance);
         // 바닥에서 0.5만큼 위로 올리기
         spawnPosition += Vector3.up * 0.5f;
 
         // 아이템 중 하나를 무작위로 골라 랜덤 위치에 생성
-        GameObject selectedItem = items[Random.Range(0, items.Length)];
+        GameObject selectedItem = items[0];
         GameObject item = Instantiate(selectedItem, spawnPosition, Quaternion.identity);
 
         // 생성된 아이템을 5초 뒤에 파괴
-        Destroy(item, 5f);
+        Destroy(item, 8f);
+    }
+
+    private void CoinSpawn() {
+        // 플레이어 근처에서 내비메시 위의 랜덤 위치 가져오기
+        Vector3 spawnPosition = GetRandomPointOnNavMesh(playerTransform.position, maxDistance);
+        // 바닥에서 0.5만큼 위로 올리기
+        spawnPosition += Vector3.up * 0.5f;
+
+        // 아이템 중 하나를 무작위로 골라 랜덤 위치에 생성
+        GameObject selectedItem = items[1];
+        GameObject item = Instantiate(selectedItem, spawnPosition, Quaternion.identity);
+
+        // 생성된 아이템을 5초 뒤에 파괴
+        Destroy(item, 7f);
     }
 
     // 내비메시 위의 랜덤한 위치를 반환하는 메서드

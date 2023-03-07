@@ -2,7 +2,7 @@
 
 // 체력을 회복하는 아이템
 public class HealthPack : MonoBehaviour, IItem {
-    public float health = 5; // 체력을 회복할 수치
+    public float health = 10f; // 체력을 회복할 수치
 
     public void Use(GameObject target) {
         // 전달받은 게임 오브젝트로부터 LivingEntity 컴포넌트 가져오기 시도

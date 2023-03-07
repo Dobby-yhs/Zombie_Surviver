@@ -4,13 +4,14 @@ using UnityEngine;
 // 생명체로서 동작할 게임 오브젝트들을 위한 뼈대를 제공
 // 체력, 데미지 받아들이기, 사망 기능, 사망 이벤트를 제공
 public class LivingEntity : MonoBehaviour, IDamageable {
-    public float startingHealth = 100f; // 시작 체력
+    public float startingHealth; // 시작 체력
     public float health { get; protected set; } // 현재 체력
     public bool dead { get; protected set; } // 사망 상태
     public event Action onDeath; // 사망시 발동할 이벤트
 
     // 생명체가 활성화될때 상태를 리셋
     protected virtual void OnEnable() {
+        startingHealth = PlayerPrefs.GetFloat("SavedHealth", 100f);
         // 사망하지 않은 상태로 시작
         dead = false;
         // 체력을 시작 체력으로 초기화
@@ -38,7 +39,10 @@ public class LivingEntity : MonoBehaviour, IDamageable {
         }
 
         // 체력 추가
-        health += newHealth;
+        if (health < 100)
+        {
+            health += newHealth;
+        }
     }
 
     // 사망 처리
