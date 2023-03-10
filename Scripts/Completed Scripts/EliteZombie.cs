@@ -23,8 +23,8 @@ public class EliteZombie : LivingEntity
 
     public EliteZombieStat elitezombieStat;
 
-    public float damage = 10f; // 공격력
-    public float timeBetAttack = 0.5f; // 공격 간격 여기서 
+    public float damage; // 공격력
+    public float timeBetAttack; // 공격 간격 여기서 
     private float lastAttackTime; // 마지막 공격 시점
 
     // 추적할 대상이 존재하는지 알려주는 프로퍼티
@@ -57,9 +57,9 @@ public class EliteZombie : LivingEntity
     public void ZombieSetup(EliteZombieStat elitezombieStat) 
     {
         startingHealth = elitezombieStat.health;
-        health = elitezombieStat.damage;
         damage = elitezombieStat.damage;
         navMeshAgent.speed = elitezombieStat.speed;
+        timeBetAttack = elitezombieStat.timeBetAttack;
         // zombieRenderer.material.color = zombieStat.skinColor;
     }
 
@@ -90,7 +90,7 @@ public class EliteZombie : LivingEntity
             {
                 navMeshAgent.isStopped = true;
 
-                Collider[] colliders = Physics.OverlapSphere(transform.position, 20f, whatIsTarget);
+                Collider[] colliders = Physics.OverlapSphere(transform.position, 40f, whatIsTarget);
 
                 //모든 콜라이더를 순회하며 살아있는 LivingEntity 찾기
                 for (int i = 0; i < colliders.Length; i++)

@@ -1,13 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class LightZombieStat : MonoBehaviour
 {
-    // public Animator lightzombieAnimator;
-    public float health = 100f;
-    public float damage = 20f;
+    public float health = 80f;
+    public float damage = 10f;
     public float speed = 2f;
-    
-    // 공격속도 추가해야함
+    public float timeBetAttack = 0.4f;
 }

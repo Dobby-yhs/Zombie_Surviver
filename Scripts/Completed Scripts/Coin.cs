@@ -17,7 +17,6 @@ public class Coin : MonoBehaviour, IItem {
         PlayerPrefs.SetInt("InGameCoin", coin);
         SavedCoin += coin;
         PlayerPrefs.SetInt("SavedCoin", SavedCoin + InGameCoin);
-        // 게임 매니저로 접근해 점수 추가 
         GameManager.instance.AddCoin(coin);
         // 사용되었으므로, 자신을 파괴
         Destroy(gameObject);

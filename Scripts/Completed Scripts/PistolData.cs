@@ -5,12 +5,12 @@ public class PistolData : MonoBehaviour
     public AudioClip shotClip; // 발사 소리
     public AudioClip reloadClip; // 재장전 소리
 
-    public int damage = 5; // 공격력
+    public int damage = 15; // 공격력
 
-    public int magCapacity = 15; // 탄창 용량
+    public int magCapacity = 20; // 탄창 용량
 
-    public float timeBetFire = 0.24f; // 총알 발사 간격
-    public float reloadTime = 1.8f; // 재장전 소요 시간
+    public float timeBetFire = 0.16f; // 총알 발사 간격
+    public float reloadTime = 1.2f; // 재장전 소요 시간
 
     private void OnEnable()
     {

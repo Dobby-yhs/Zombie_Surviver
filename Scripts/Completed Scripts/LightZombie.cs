@@ -21,8 +21,8 @@ public class LightZombie : LivingEntity
 
     public LightZombieStat lightzombieStat;
 
-    public float damage = 10f; // 공격력
-    public float timeBetAttack = 0.5f; // 공격 간격 여기서 
+    public float damage; // 공격력
+    public float timeBetAttack; // 공격 간격 여기서 
     private float lastAttackTime; // 마지막 공격 시점
 
     // 추적할 대상이 존재하는지 알려주는 프로퍼티
@@ -52,9 +52,9 @@ public class LightZombie : LivingEntity
     public void ZombieSetup(LightZombieStat lightzombieStat) 
     {
         startingHealth = lightzombieStat.health;
-        health = lightzombieStat.damage;
         damage = lightzombieStat.damage;
         navMeshAgent.speed = lightzombieStat.speed;
+        timeBetAttack = lightzombieStat.timeBetAttack;
         // zombieRenderer.material.color = zombieStat.skinColor;
     }
 
@@ -66,6 +66,10 @@ public class LightZombie : LivingEntity
     private void Update() {
         // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
         lightzombieAnimator.SetBool("HasTarget", hasTarget);
+        Debug.Log("startingHealth : " + startingHealth);
+        Debug.Log("damage : " + damage);
+        Debug.Log("speed : " + lightzombieStat.speed);
+        Debug.Log("timeBetAttack : " + timeBetAttack);
     }
 
     // 주기적으로 추적할 대상의 위치를 찾아 경로 갱신
@@ -83,7 +87,7 @@ public class LightZombie : LivingEntity
             {
                 navMeshAgent.isStopped = true;
 
-                Collider[] colliders = Physics.OverlapSphere(transform.position, 20f, whatIsTarget);
+                Collider[] colliders = Physics.OverlapSphere(transform.position, 40f, whatIsTarget);
 
                 //모든 콜라이더를 순회하며 살아있는 LivingEntity 찾기
                 for (int i = 0; i < colliders.Length; i++)

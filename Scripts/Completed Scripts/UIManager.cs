@@ -1,4 +1,5 @@
-﻿    using UnityEngine;
+﻿using System.Threading;
+using UnityEngine;
 using UnityEngine.SceneManagement; // 씬 관리자 관련 코드
 using UnityEngine.UI; // UI 관련 코드
 
@@ -23,7 +24,12 @@ public class UIManager : MonoBehaviour {
     public Text ammoText; // 탄약 표시용 텍스트
     public Text scoreText; // 점수 표시용 텍스트
     public Text waveText; // 적 웨이브 표시용 텍스트
+    public Text coinText; // 먹은 코인 표시용 텍스트
+    public Text gunText; // 선택한 총 표시용 텍스트
+    //public Text boardText; // 빌보드 점수 표시용 텍스트
+    public GameObject reloadText; // 재장전 표시용 텍스트
     public GameObject gameoverUI; // 게임 오버시 활성화할 UI 
+
 
     // 탄약 텍스트 갱신
     public void UpdateAmmoText(int magAmmo) {
@@ -32,18 +38,50 @@ public class UIManager : MonoBehaviour {
 
     // 점수 텍스트 갱신
     public void UpdateScoreText(int newScore) {
-        scoreText.text = "Score : " + newScore;
+        scoreText.text = "Score : " + newScore; 
     }
 
     // 적 웨이브 텍스트 갱신
-    public void UpdateWaveText(int waves, int count) {
-        waveText.text = "Wave time : " + waves + "\nEnemy Left : " + count;
+    public void UpdateWaveText(float min, float sec, int count) {
+        waveText.text = "Wave Time : " + string.Format("{0:00}:{1:00}", min, sec) + "\nZombie Kill : " + count;
+    }
+
+    //현재 먹은 코인 갱싱
+    public void UpdateCoinText(int coin)
+    {
+        coinText.text = "Coin : " + coin;
+    }
+
+    //선택한 총기 UI 표시
+    public void UpdateGunText()
+    {
+        if (PlayerPrefs.GetInt("SelectedGun") == 0)
+        {
+            gunText.text = "Gun : pistol";
+        }
+
+        else if (PlayerPrefs.GetInt("SelectedGun") == 1)
+        {
+            gunText.text = "Gun : rifle";
+        }
+
+        else if (PlayerPrefs.GetInt("SelectedGun") == 2)
+        {
+            gunText.text = "Gun : sniper";
+        }
+    }
+
+    //재장전 시 재장전 텍스트 출력
+    public void SetActiveReloadUI(bool active)
+    {
+        reloadText.SetActive(active);
     }
 
     // 게임 오버 UI 활성화
     public void SetActiveGameoverUI(bool active) {
         gameoverUI.SetActive(active);
     }
+
 
     // 게임 재시작
     public void GameRestart() {

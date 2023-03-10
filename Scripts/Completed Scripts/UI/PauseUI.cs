@@ -8,34 +8,21 @@ public class PauseUI : MonoBehaviour
     //일시 정지를 눌렀을 때 나오는 UI창 구현 함수들이다.
     public static bool IsGamePause = false;
 
-    public GameObject pauseMenuUI;
+    public static GameObject pauseMenuUI;
 
-    public void Resume()
+    public static void Resume()
     {
         pauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
         IsGamePause = false;
     }
 
-    void Pause()
+    public static void Pause()
     {
         pauseMenuUI.SetActive(true);
         Time.timeScale = 0f;
         IsGamePause = true;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (IsGamePause)
-            {
-                Resume();
-            }
-            else
-            {
-                Pause();
-            }
-        }
-    }
+   
 }

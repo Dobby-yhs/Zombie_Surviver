@@ -80,9 +80,6 @@ public class GameManager : MonoBehaviour {
             
             RemoveCoin();
 
-            Debug.Log("usedcoin : " + usedcoin);
-            Debug.Log("newCoin : " + newCoin);
-            Debug.Log("coin : " + coin);
             PlayerPrefs.SetInt("SavedCoin", coin);
             // 점수 UI 텍스트 갱신
             UIManager.instance.UpdateCoinText(coin);

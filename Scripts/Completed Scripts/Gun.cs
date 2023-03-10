@@ -1,17 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement; // 씬 관리자 관련 코드
+using UnityEngine.UI; // UI 관련 코드
 
-public class Gun : MonoBehaviour
-{
+
+// 총을 구현
+public class Gun : MonoBehaviour {
+
     public GameObject[] guns;
-    
-    public int currentGunIndex = 0;
 
-    private void Start() {
-        for ( int i = 0; i < guns.Length; i++)
+    public int currentGunIndex;
+
+    private void Start()
+    {
+        currentGunIndex = PlayerPrefs.GetInt("SelectedGun", 0);
+
+        for (int i = 0; i < guns.Length; i++)
         {
-            if ( i == currentGunIndex) 
+            if (i == currentGunIndex)
             {
                 guns[i].gameObject.SetActive(true);
             }
@@ -25,16 +31,7 @@ public class Gun : MonoBehaviour
     public void SwitchGun(int newGunIndex)
     {
         guns[currentGunIndex].gameObject.SetActive(false);
-        currentGunIndex = newGunIndex;
+        PlayerPrefs.SetInt("SelectedGun", newGunIndex);
         guns[currentGunIndex].gameObject.SetActive(true);
     }
-
-    /*
-    private void OnDisable() {
-        // 슈터가 비활성화될 때 총도 함께 비활성화
-        // currentGun.gameObject.SetActive(false);
-        guns[currentGunIndex].gameObject.SetActive(false);
-
-    }
-    */
 }

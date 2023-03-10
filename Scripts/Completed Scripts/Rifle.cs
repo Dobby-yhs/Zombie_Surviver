@@ -116,7 +116,10 @@ public class Rifle : MonoBehaviour {
     private IEnumerator ReloadRoutine() {
         // 현재 상태를 재장전 중 상태로 전환
         state = State.Reloading;
-      
+
+        // 재장전 텍스트 출력
+        UIManager.instance.SetActiveReloadUI(true);
+
         gunAudioPlayer.PlayOneShot(rifleData.reloadClip);
 
         // 재장전 소요 시간 만큼 처리 쉬기
@@ -125,5 +128,11 @@ public class Rifle : MonoBehaviour {
         magAmmo = rifleData.magCapacity;
         
         state = State.Ready;
+
+        //재장전 UI 비활성화
+        if (state == State.Ready)
+        {
+            UIManager.instance.SetActiveReloadUI(false);
+        }
     }
 }

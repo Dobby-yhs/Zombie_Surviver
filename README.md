@@ -53,3 +53,4 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 #### GameManager.cs의 coin이 초기화가 안되는 오류
 ### 3/6 상인 UI 오류 수정 완료
 ### 3/7 HealthPack, Coin 밸런스 조정 완료
+### 3/11 밸런스 조정 완료

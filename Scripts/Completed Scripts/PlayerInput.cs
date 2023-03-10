@@ -8,6 +8,7 @@ public class PlayerInput : MonoBehaviour {
     public string mouseRotateName = "MouseX"; 
     public string fireButtonName = "Fire1"; // 발사를 위한 입력 버튼 이름
     public string reloadButtonName = "Reload"; // 재장전을 위한 입력 버튼 이름
+    
 
     // 값 할당은 내부에서만 가능
     public float frontback { get; private set; } // 감지된 앞뒤 입력값
@@ -17,8 +18,7 @@ public class PlayerInput : MonoBehaviour {
     public bool reload { get; private set; } // 감지된 재장전 입력값
 
     private bool inputEnabled = true;
-
-
+   
     // 매프레임 사용자 입력을 감지
     private void FixedUpdate() {
         // 게임오버 상태에서는 사용자 입력을 감지하지 않는다
@@ -29,6 +29,7 @@ public class PlayerInput : MonoBehaviour {
             mouserotate = new Vector3 (0,0,0);
             fire = false;
             reload = false;
+            
             return;
         }
 
@@ -47,10 +48,15 @@ public class PlayerInput : MonoBehaviour {
         }
     }
 
+    public void EnableInput()
+    {
+        inputEnabled = true;
+    }
+
     public void DisableInput()
     {
-        Debug.Log("DisableInput!");
         inputEnabled = false;
+        
         frontback = 0;
         rightleft = 0;
         mouserotate = new Vector3 (0,0,0);
@@ -58,9 +64,4 @@ public class PlayerInput : MonoBehaviour {
         reload = false;
     }
 
-    public void EnableInput()
-    {
-        inputEnabled = true;
-    }
 }
-

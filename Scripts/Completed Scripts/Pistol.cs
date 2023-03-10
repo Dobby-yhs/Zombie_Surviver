@@ -117,7 +117,11 @@ public class Pistol : MonoBehaviour {
     private IEnumerator ReloadRoutine() {
         // 현재 상태를 재장전 중 상태로 전환
         state = State.Reloading;
-      
+
+        // 재장전 텍스트 출력
+        UIManager.instance.SetActiveReloadUI(true);
+
+        //재장전 소리 재생
         gunAudioPlayer.PlayOneShot(pistolData.reloadClip);
 
         // 재장전 소요 시간 만큼 처리 쉬기
@@ -127,5 +131,11 @@ public class Pistol : MonoBehaviour {
 
         // 총의 현재 상태를 발사 준비된 상태로 변경
         state = State.Ready;
+
+        //재장전 UI 비활성화
+        if (state == State.Ready)
+        {
+            UIManager.instance.SetActiveReloadUI(false);
+        }
     }
 }

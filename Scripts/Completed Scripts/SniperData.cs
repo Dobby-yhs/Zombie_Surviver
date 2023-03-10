@@ -5,12 +5,12 @@ public class SniperData : MonoBehaviour
     public AudioClip shotClip; // 발사 소리
     public AudioClip reloadClip; // 재장전 소리
 
-    public int damage = 20; // 공격력
+    public int damage = 50; // 공격력
 
-    public int magCapacity = 10; // 탄창 용량
+    public int magCapacity = 15; // 탄창 용량
 
-    public float timeBetFire = 0.36f; // 총알 발사 간격
-    public float reloadTime = 2.7f; // 재장전 소요 시간
+    public float timeBetFire = 0.2f; // 총알 발사 간격
+    public float reloadTime = 2.1f; // 재장전 소요 시간
 
     private void OnEnable()
     {

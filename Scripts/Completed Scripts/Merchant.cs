@@ -52,4 +52,9 @@ public class Merchant : MonoBehaviour
             isCollide = true;
         }
     }
+
+    // public void Active()
+    // {
+    //     merchant.SetActive(true);
+    // }
 }

@@ -10,8 +10,8 @@ using Random = UnityEngine.Random;
 // 좀비 게임 오브젝트를 주기적으로 생성
 public class ZombieSpawner : MonoBehaviour
 {
-    public Zombie zombiePrefab;
     public LightZombie lightzombiePrefab;
+    public Zombie zombiePrefab;
     public ZombieDog zombiedogPrefab;
     public EliteZombie elitezombiePrefab;
 
@@ -25,15 +25,21 @@ public class ZombieSpawner : MonoBehaviour
     private List<EliteZombie> elitezombies = new List<EliteZombie>();
 
 
-    public ZombieStat zombieStat;
     public LightZombieStat lightzombieStat;
+    public ZombieStat zombieStat;
     public ZombieDogStat zombiedogStat;
     public EliteZombieStat elitezombieStat;
 
 
-    private float waveTime = 5 * 60;
+    private float waveTime = 3 * 60f;
     private float wave_min;
     private float wave_sec;
+
+    private float checkTime = 1 * 60f;
+    private float upgradeTime_lz = 0;
+    private float upgradeTime_z = 0;
+    private float upgradeTime_zd = 0;
+    private float upgradeTime_ez = 0;
 
     private int wave; // 현재 웨이브
 
@@ -86,51 +92,86 @@ public class ZombieSpawner : MonoBehaviour
             waveTime -= Time.deltaTime;
             wave_min = Mathf.Floor(waveTime / 60);
             wave_sec = Mathf.RoundToInt(waveTime % 60);
-
-
-            if (zombieKill <  10) {
-                zombieSpawnTimes[0] = 3f;
-                zombieSpawnTimes[1] = 100f;
-                zombieSpawnTimes[2] = 100f;
-                zombieSpawnTimes[3] = 100f;
+            
+            if (upgradeTime_lz >= 4 * 60f && upgradeTime_lz == 7 * 60f) {
+                zombieSpawnTimes[0] = 1f;
+                zombieSpawnTimes[1] = 1f;
+                zombieSpawnTimes[2] = 1f;
+                zombieSpawnTimes[3] = 1f;
             }
-            if (zombieKill >= 10 && zombieKill < 20) {
+            else if (zombieKill <  10) 
+            {
+                upgradeTime_lz += Time.deltaTime;
+                
+                zombieSpawnTimes[0] = 3f;
+                zombieSpawnTimes[1] = 1000f;
+                zombieSpawnTimes[2] = 1000f;
+                zombieSpawnTimes[3] = 1000f;
+            }
+            else if (zombieKill >= 10 && zombieKill < 20) 
+            {
+                upgradeTime_z = Time.deltaTime;
+                
+                zombieSpawnTimes[0] = 5f;
+                zombieSpawnTimes[1] = 5f;
+                zombieSpawnTimes[2] = 1000f;
+                zombieSpawnTimes[3] = 1000f;
+            }
+            else if (zombieKill >= 20 && zombieKill < 30) 
+            {
                 zombieSpawnTimes[0] = 4f;
                 zombieSpawnTimes[1] = 4f;
-                zombieSpawnTimes[2] = 100f;
-                zombieSpawnTimes[3] = 100f;
+                zombieSpawnTimes[2] = 1000f;
+                zombieSpawnTimes[3] = 1000f;           
             }
-            if (zombieKill >= 20 && zombieKill < 30) {
-                zombieSpawnTimes[0] = 3f;
-                zombieSpawnTimes[1] = 3f;
-                zombieSpawnTimes[2] = 100f;
-                zombieSpawnTimes[3] = 100f;           
-            }
-            if (zombieKill >= 30 && zombieKill < 40) {
+            else if (zombieKill >= 30 && zombieKill < 40) 
+            {
+                upgradeTime_zd = Time.deltaTime;
+
                 zombieSpawnTimes[0] = 3f;
                 zombieSpawnTimes[1] = 3f;
                 zombieSpawnTimes[2] = 8f;
-                zombieSpawnTimes[3] = 100f;
+                zombieSpawnTimes[3] = 1000f;
             }
-            if (zombieKill >= 40 && zombieKill < 50) {
+            else if (zombieKill >= 40 && zombieKill < 50) 
+            {
                 zombieSpawnTimes[0] = 3f;
                 zombieSpawnTimes[1] = 3f;
                 zombieSpawnTimes[2] = 6f;
-                zombieSpawnTimes[3] = 100f;
+                zombieSpawnTimes[3] = 1000f;
             }
-            if (zombieKill >= 50 && zombieKill < 60) {
+            else if (zombieKill >= 50 && zombieKill < 60) 
+            {
+                upgradeTime_ez = Time.deltaTime;
+
                 zombieSpawnTimes[0] = 3f;
                 zombieSpawnTimes[1] = 3f;
                 zombieSpawnTimes[2] = 6f;
                 zombieSpawnTimes[3] = 8f;
             }
-            if (zombieKill >= 60 && zombieKill < 70) {
+            else if (zombieKill >= 60 && zombieKill < 70) 
+            {
                 zombieSpawnTimes[0] = 3f;
                 zombieSpawnTimes[1] = 3f;
                 zombieSpawnTimes[2] = 5f;
                 zombieSpawnTimes[3] = 6f;
             }
+            else if (zombieKill >= 70 && zombieKill < 80) 
+            {
+                zombieSpawnTimes[0] = 3f;
+                zombieSpawnTimes[1] = 3f;
+                zombieSpawnTimes[2] = 5f;
+                zombieSpawnTimes[3] = 5f;
+            }
+            else if (zombieKill >= 80) 
+            {
+                zombieSpawnTimes[0] = 4f;
+                zombieSpawnTimes[1] = 4f;
+                zombieSpawnTimes[2] = 4f;
+                zombieSpawnTimes[3] = 4f;
+            }
 
+            
 
             for (int i = 0; i < 4; i++)
             {
@@ -177,8 +218,6 @@ public class ZombieSpawner : MonoBehaviour
     private void ResumeZombies()
     {
         Time.timeScale = 1.0f;
-
-        Debug.Log(merchantIsCollide);
     }
 
     private void SpawnZombie(int index)
@@ -202,7 +241,6 @@ public class ZombieSpawner : MonoBehaviour
 
     private void Victory()
     {
-            Debug.Log("Victory!");
             PauseZombies();
             EndUI.SetActive(true);
     }
@@ -214,6 +252,17 @@ public class ZombieSpawner : MonoBehaviour
         LightZombie lightzombie = Instantiate(lightzombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
         lightzombie.ZombieSetup(lightzombieStat);
+
+        if (upgradeTime_lz >= checkTime)
+        {
+            lightzombieStat.health += 20f;
+            lightzombieStat.damage += 10f;
+            lightzombieStat.speed -= 0.5f;
+            lightzombieStat.timeBetAttack -= 0.1f;
+
+            upgradeTime_lz = 0f;
+        }
+
         lightzombies.Add(lightzombie);
 
         lightzombie.onDeath += () => lightzombies.Remove(lightzombie);
@@ -232,6 +281,17 @@ public class ZombieSpawner : MonoBehaviour
         Zombie zombie = Instantiate(zombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
         zombie.ZombieSetup(zombieStat);
+
+        if (upgradeTime_z >= checkTime)
+        {
+            zombieStat.health += 20f;
+            zombieStat.damage += 10f;
+            zombieStat.speed -= 0.5f;
+            zombieStat.timeBetAttack -= 0.1f;
+
+            upgradeTime_z = 0f;
+        }
+
         zombies.Add(zombie);
 
         zombie.onDeath += () => zombies.Remove(zombie);
@@ -247,6 +307,17 @@ public class ZombieSpawner : MonoBehaviour
         ZombieDog zombiedog = Instantiate(zombiedogPrefab, spawnPoint.position, spawnPoint.rotation);
 
         zombiedog.ZombieSetup(zombiedogStat);
+
+        if (upgradeTime_zd >= checkTime)
+        {
+            zombiedogStat.health += 20f;
+            zombiedogStat.damage += 10f;
+            zombiedogStat.speed -= 0.5f;
+            zombiedogStat.timeBetAttack -= 0.1f;
+
+            upgradeTime_zd = 0f;
+        }
+
         zombiedogs.Add(zombiedog);
 
         zombiedog.onDeath += () => zombiedogs.Remove(zombiedog);
@@ -265,6 +336,17 @@ public class ZombieSpawner : MonoBehaviour
         EliteZombie elitezombie = Instantiate(elitezombiePrefab, spawnPoint.position, spawnPoint.rotation);
 
         elitezombie.ZombieSetup(elitezombieStat);
+
+        if (upgradeTime_ez >= checkTime)
+        {
+            elitezombieStat.health += 20f;
+            elitezombieStat.damage += 10f;
+            elitezombieStat.speed -= 0.5f;
+            elitezombieStat.timeBetAttack -= 0.1f;
+
+            upgradeTime_ez = 0f;
+        }
+
         elitezombies.Add(elitezombie);
 
         elitezombie.onDeath += () => elitezombies.Remove(elitezombie);
