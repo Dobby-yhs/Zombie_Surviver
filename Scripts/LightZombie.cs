@@ -65,11 +65,6 @@ public class LightZombie : LivingEntity
 
     private void Update() {
         // 추적 대상의 존재 여부에 따라 다른 애니메이션 재생
-        lightzombieAnimator.SetBool("HasTarget", hasTarget);
-        Debug.Log("startingHealth : " + startingHealth);
-        Debug.Log("damage : " + damage);
-        Debug.Log("speed : " + lightzombieStat.speed);
-        Debug.Log("timeBetAttack : " + timeBetAttack);
     }
 
     // 주기적으로 추적할 대상의 위치를 찾아 경로 갱신

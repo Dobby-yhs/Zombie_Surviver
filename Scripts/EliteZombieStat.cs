@@ -5,7 +5,7 @@ using UnityEngine;
 public class EliteZombieStat : MonoBehaviour
 {
     // public Animator zombieAnimator;
-    public float health = 600f;
+    public float health = 160f;
     public float damage = 40f;
     public float speed = 1.5f;
     public float timeBetAttack = 0.8f;

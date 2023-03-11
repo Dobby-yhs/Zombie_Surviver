@@ -11,7 +11,7 @@ public class MerchantSpawner : MonoBehaviour
 
     public Transform playerTransform;
 
-    public float maxDistance = 10f;
+    public float maxDistance = 20f;
 
     public bool isSpawned = false;
 
@@ -28,13 +28,19 @@ public class MerchantSpawner : MonoBehaviour
             merchant.SetActive(true);
             isSpawned = true;
         }
-        if (zombie.zombieKill == 70 && !isSpawned && spawnNum == 1)
+        if (zombie.zombieKill == 60 && !isSpawned && spawnNum == 1)
         {
             Spawn();
             merchant.SetActive(true);
             isSpawned = true;
         }
-        if (zombie.zombieKill == 150 && !isSpawned && spawnNum == 2)
+        if (zombie.zombieKill == 100 && !isSpawned && spawnNum == 2)
+        {
+            Spawn();
+            merchant.SetActive(true);
+            isSpawned = true;
+        }
+        if (zombie.zombieKill == 160 && !isSpawned && spawnNum == 3)
         {
             Spawn();
             merchant.SetActive(true);

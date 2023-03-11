@@ -31,11 +31,11 @@ public class ZombieSpawner : MonoBehaviour
     public EliteZombieStat elitezombieStat;
 
 
-    private float waveTime = 3 * 60f;
+    private float waveTime = 10 * 60f;
     private float wave_min;
     private float wave_sec;
 
-    private float checkTime = 1 * 60f;
+    private float checkTime = 3 * 60f;
     private float upgradeTime_lz = 0;
     private float upgradeTime_z = 0;
     private float upgradeTime_zd = 0;
@@ -93,7 +93,7 @@ public class ZombieSpawner : MonoBehaviour
             wave_min = Mathf.Floor(waveTime / 60);
             wave_sec = Mathf.RoundToInt(waveTime % 60);
             
-            if (upgradeTime_lz >= 4 * 60f && upgradeTime_lz == 7 * 60f) {
+            if (upgradeTime_lz == 4 * 60f && upgradeTime_lz == 7 * 60f) {
                 zombieSpawnTimes[0] = 1f;
                 zombieSpawnTimes[1] = 1f;
                 zombieSpawnTimes[2] = 1f;
@@ -113,14 +113,14 @@ public class ZombieSpawner : MonoBehaviour
                 upgradeTime_z = Time.deltaTime;
                 
                 zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 5f;
+                zombieSpawnTimes[1] = 6f;
                 zombieSpawnTimes[2] = 1000f;
                 zombieSpawnTimes[3] = 1000f;
             }
             else if (zombieKill >= 20 && zombieKill < 30) 
             {
                 zombieSpawnTimes[0] = 4f;
-                zombieSpawnTimes[1] = 4f;
+                zombieSpawnTimes[1] = 6f;
                 zombieSpawnTimes[2] = 1000f;
                 zombieSpawnTimes[3] = 1000f;           
             }
@@ -128,47 +128,47 @@ public class ZombieSpawner : MonoBehaviour
             {
                 upgradeTime_zd = Time.deltaTime;
 
-                zombieSpawnTimes[0] = 3f;
-                zombieSpawnTimes[1] = 3f;
-                zombieSpawnTimes[2] = 8f;
+                zombieSpawnTimes[0] = 5f;
+                zombieSpawnTimes[1] = 5f;
+                zombieSpawnTimes[2] = 10f;
                 zombieSpawnTimes[3] = 1000f;
             }
             else if (zombieKill >= 40 && zombieKill < 50) 
             {
-                zombieSpawnTimes[0] = 3f;
-                zombieSpawnTimes[1] = 3f;
-                zombieSpawnTimes[2] = 6f;
+                zombieSpawnTimes[0] = 5f;
+                zombieSpawnTimes[1] = 5f;
+                zombieSpawnTimes[2] = 8f;
                 zombieSpawnTimes[3] = 1000f;
             }
             else if (zombieKill >= 50 && zombieKill < 60) 
             {
                 upgradeTime_ez = Time.deltaTime;
 
-                zombieSpawnTimes[0] = 3f;
-                zombieSpawnTimes[1] = 3f;
-                zombieSpawnTimes[2] = 6f;
-                zombieSpawnTimes[3] = 8f;
+                zombieSpawnTimes[0] = 7f;
+                zombieSpawnTimes[1] = 4f;
+                zombieSpawnTimes[2] = 8f;
+                zombieSpawnTimes[3] = 10f;
             }
             else if (zombieKill >= 60 && zombieKill < 70) 
             {
-                zombieSpawnTimes[0] = 3f;
-                zombieSpawnTimes[1] = 3f;
-                zombieSpawnTimes[2] = 5f;
-                zombieSpawnTimes[3] = 6f;
+                zombieSpawnTimes[0] = 6f;
+                zombieSpawnTimes[1] = 4f;
+                zombieSpawnTimes[2] = 6f;
+                zombieSpawnTimes[3] = 8f;
             }
             else if (zombieKill >= 70 && zombieKill < 80) 
             {
-                zombieSpawnTimes[0] = 3f;
-                zombieSpawnTimes[1] = 3f;
+                zombieSpawnTimes[0] = 6f;
+                zombieSpawnTimes[1] = 4f;
                 zombieSpawnTimes[2] = 5f;
-                zombieSpawnTimes[3] = 5f;
+                zombieSpawnTimes[3] = 7f;
             }
             else if (zombieKill >= 80) 
             {
-                zombieSpawnTimes[0] = 4f;
-                zombieSpawnTimes[1] = 4f;
-                zombieSpawnTimes[2] = 4f;
-                zombieSpawnTimes[3] = 4f;
+                zombieSpawnTimes[0] = 5f;
+                zombieSpawnTimes[1] = 5f;
+                zombieSpawnTimes[2] = 5f;
+                zombieSpawnTimes[3] = 5f;
             }
 
             
