@@ -56,3 +56,4 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 ### 3/11 밸런스 조정 완료
 ### 3/11 밸런스 조정 및 Gun Manager 재 적용 완료
 #### rifle, sniper 재화로 구매하게끔 수정
+### 3/14 Gun Manager 수정 중
