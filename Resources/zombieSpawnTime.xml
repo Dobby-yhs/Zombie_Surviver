@@ -1,0 +1,161 @@
+<zombies>
+  <zombie type="lightzombie">
+    <spawnRate>
+      <range min="0" max="10">3</range>
+      <range min="11" max="20">5</range>
+      <range min="21" max="30">4</range>
+      <range min="31" max="40">5</range>
+      <range min="41" max="50">5</range>
+      <range min="51" max="60">7</range>
+      <range min="61" max="70">6</range>
+      <range min="71" max="80">6</range>
+      <range min="81" max="9999">5</range>
+    </spawnRate>
+  </zombie>
+  <zombie type="zombie">
+    <spawnRate>
+      <range min="0" max="10">1000</range>
+      <range min="11" max="20">6</range>
+      <range min="21" max="30">6</range>
+      <range min="31" max="40">5</range>
+      <range min="41" max="50">5</range>
+      <range min="51" max="60">4</range>
+      <range min="61" max="70">4</range>
+      <range min="71" max="80">4</range>
+      <range min="81" max="9999">4</range>
+    </spawnRate>
+  </zombie>
+  <zombie type="zombiedog">
+    <spawnRate>
+      <range min="0" max="10">1000</range>
+      <range min="11" max="20">8</range>
+      <range min="21" max="30">1000</range>
+      <range min="31" max="40">10</range>
+      <range min="41" max="50">8</range>
+      <range min="51" max="60">8</range>
+      <range min="61" max="70">6</range>
+      <range min="71" max="80">5</range>
+      <range min="81" max="9999">5</range>
+    </spawnRate>
+  </zombie>
+  <zombie type="elitezombie">
+    <spawnRate>
+      <range min="0" max="10">1000</range>
+      <range min="11" max="20">1000</range>
+      <range min="21" max="30">1000</range>
+      <range min="31" max="40">1000</range>
+      <range min="41" max="50">1000</range>
+      <range min="51" max="60">10</range>
+      <range min="61" max="70">8</range>
+      <range min="71" max="80">7</range>
+      <range min="81" max="9999">5</range>
+    </spawnRate>
+  </zombie>
+</zombies>
+
+
+
+
+<!--
+<?xml version="1.0" encoding="UTF-8"?>
+<game>
+  <roundConditions>
+    <roundCondition>
+      <zombieKill>10</zombieKill>
+      <zombieSpawnTime>
+        <time>3.0</time>
+        <time>1000.0</time>
+        <time>1000.0</time>
+        <time>1000.0</time>
+      </zombieSpawnTime>
+    </roundCondition>
+    <roundCondition>
+      <zombieKill>20</zombieKill>
+      <zombieSpawnTime>
+        <time>5.0</time>
+        <time>6.0</time>
+        <time>1000.0</time>
+        <time>1000.0</time>
+      </zombieSpawnTime>
+    </roundCondition>
+    <roundCondition>
+      <zombieKill>30</zombieKill>
+      <zombieSpawnTime>
+        <time>4.0</time>
+        <time>6.0</time>
+        <time>1000.0</time>
+        <time>1000.0</time>
+      </zombieSpawnTime>
+    </roundCondition>
+    <roundCondition>
+      <zombieKill>40</zombieKill>
+      <zombieSpawnTime>
+        <time>5.0</time>
+        <time>5.0</time>
+        <time>10.0</time>
+        <time>1000.0</time>
+      </zombieSpawnTime>
+    </roundCondition>
+    <roundCondition>
+      <zombieKill>50</zombieKill>
+      <zombieSpawnTime>
+        <time>5.0</time>
+        <time>5.0</time>
+        <time>8.0</time>
+        <time>1000.0</time>
+      </zombieSpawnTime>
+    </roundCondition>
+    <roundCondition>
+      <zombieKill>60</zombieKill>
+      <zombieSpawnTime>
+        <time>7.0</time>
+        <time>4.0</time>
+        <time>8.0</time>
+        <time>10.0</time>
+      </zombieSpawnTime>
+    </roundCondition>
+    <roundCondition>
+      <zombieKill>70</zombieKill>
+      <zombieSpawnTime>
+        <time>6.0</time>
+        <time>4.0</time>
+        <time>6.0</time>
+        <time>8.0</time>
+      </zombieSpawnTime>
+    </roundCondition>
+    <roundCondition>
+      <zombieKill>80</zombieKill>
+      <zombieSpawnTime>
+        <time>6.0</time>
+        <time>4.0</time>
+        <time>5.0</time>
+        <time>7.0</time>
+      </zombieSpawnTime>
+    </roundCondition>
+    <roundCondition>
+      <zombieKill>90</zombieKill>
+      <zombieSpawnTime>
+        <time>5.0</time>
+        <time>5.0</time>
+        <time>5.0</time>
+        <time>5.0</time>
+      </zombieSpawn>
+    </roundCondition>
+</game>
+-->
+
+
+<!--
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<BasicDialogue>
+	<DialogueData zombieKillMin="0" zombieKillMax="10" zombieSpawnTimes0="5" zombieSpawnTimes1="1000" zombieSpawnTimes2="1000" zombieSpawnTimes3="1000"/>
+	<DialogueData zombieKillMin="10" zombieKillMax="20" zombieSpawnTimes0="5" zombieSpawnTimes1="6" zombieSpawnTimes2="1000" zombieSpawnTimes3="1000"/>
+	<DialogueData zombieKillMin="20" zombieKillMax="30" zombieSpawnTimes0="4" zombieSpawnTimes1="6" zombieSpawnTimes2="1000" zombieSpawnTimes3="1000"/>
+	<DialogueData zombieKillMin="30" zombieKillMax="40" zombieSpawnTimes0="5" zombieSpawnTimes1="5" zombieSpawnTimes2="10" zombieSpawnTimes3="1000"/>
+	<DialogueData zombieKillMin="40" zombieKillMax="50" zombieSpawnTimes0="5" zombieSpawnTimes1="5" zombieSpawnTimes2="8" zombieSpawnTimes3="1000"/>
+	<DialogueData zombieKillMin="50" zombieKillMax="60" zombieSpawnTimes0="7" zombieSpawnTimes1="4" zombieSpawnTimes2="8" zombieSpawnTimes3="10"/>
+	<DialogueData zombieKillMin="60" zombieKillMax="70" zombieSpawnTimes0="6" zombieSpawnTimes1="4" zombieSpawnTimes2="6" zombieSpawnTimes3="8"/>
+	<DialogueData zombieKillMin="70" zombieKillMax="80" zombieSpawnTimes0="6" zombieSpawnTimes1="4" zombieSpawnTimes2="5" zombieSpawnTimes3="7"/>
+	<DialogueData zombieKillMin="80" zombieKillMax="90" zombieSpawnTimes0="5" zombieSpawnTimes1="5" zombieSpawnTimes2="5" zombieSpawnTimes3="5"/>
+</BasicDialogue>
+-->

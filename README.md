@@ -57,3 +57,4 @@ Unity Project with TJ. Zombie Surviver is this game's working title.
 ### 3/11 밸런스 조정 및 Gun Manager 재 적용 완료
 #### rifle, sniper 재화로 구매하게끔 수정
 ### 3/14 Gun Manager 수정 중
+### 3/16 좀비 스폰 시간 데이터 xml 파일로 생성 후 로드 완료

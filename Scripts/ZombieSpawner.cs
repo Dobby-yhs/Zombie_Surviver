@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
+using System.Xml;
+using System.IO;
 
 
 
@@ -10,6 +12,8 @@ using Random = UnityEngine.Random;
 // 좀비 게임 오브젝트를 주기적으로 생성
 public class ZombieSpawner : MonoBehaviour
 {
+    ZombieSpawnData zombieSpawnData = new ZombieSpawnData();
+
     public LightZombie lightzombiePrefab;
     public Zombie zombiePrefab;
     public ZombieDog zombiedogPrefab;
@@ -23,8 +27,7 @@ public class ZombieSpawner : MonoBehaviour
     private List<LightZombie> lightzombies = new List<LightZombie>();
     private List<ZombieDog> zombiedogs = new List<ZombieDog>();
     private List<EliteZombie> elitezombies = new List<EliteZombie>();
-
-
+    
     public LightZombieStat lightzombieStat;
     public ZombieStat zombieStat;
     public ZombieDogStat zombiedogStat;
@@ -48,18 +51,20 @@ public class ZombieSpawner : MonoBehaviour
     public float[] zombieSpawnTimes = new float[4] { 5f, 5f, 5f, 5f };
     private float[] lastSpawnTime = new float[4];
 
-
     bool merchantIsCollide;
 
+    
 
     private void Start()
     {
+        zombieSpawnData.Load("Assets/Resources/zombieSpawnTime.xml");
+
         for (int i = 0 ; i < 4; i++)
         {
             lastSpawnTime[i] = Time.time;
         }
 
-        EndUI.SetActive(false);
+        EndUI.SetActive(false); 
     }
 
     private void OnEnable()
@@ -93,93 +98,22 @@ public class ZombieSpawner : MonoBehaviour
             wave_min = Mathf.Floor(waveTime / 60);
             wave_sec = Mathf.RoundToInt(waveTime % 60);
             
-            if (upgradeTime_lz == 4 * 60f && upgradeTime_lz == 7 * 60f) {
-                zombieSpawnTimes[0] = 1f;
-                zombieSpawnTimes[1] = 1f;
-                zombieSpawnTimes[2] = 1f;
-                zombieSpawnTimes[3] = 1f;
-            }
-            else if (zombieKill <  10) 
-            {
-                upgradeTime_lz += Time.deltaTime;
-                
-                zombieSpawnTimes[0] = 3f;
-                zombieSpawnTimes[1] = 1000f;
-                zombieSpawnTimes[2] = 1000f;
-                zombieSpawnTimes[3] = 1000f;
-            }
-            else if (zombieKill >= 10 && zombieKill < 20) 
-            {
-                upgradeTime_z = Time.deltaTime;
-                
-                zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 6f;
-                zombieSpawnTimes[2] = 1000f;
-                zombieSpawnTimes[3] = 1000f;
-            }
-            else if (zombieKill >= 20 && zombieKill < 30) 
-            {
-                zombieSpawnTimes[0] = 4f;
-                zombieSpawnTimes[1] = 6f;
-                zombieSpawnTimes[2] = 1000f;
-                zombieSpawnTimes[3] = 1000f;           
-            }
-            else if (zombieKill >= 30 && zombieKill < 40) 
-            {
-                upgradeTime_zd = Time.deltaTime;
+            int i = 0;
 
-                zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 5f;
-                zombieSpawnTimes[2] = 10f;
-                zombieSpawnTimes[3] = 1000f;
-            }
-            else if (zombieKill >= 40 && zombieKill < 50) 
+            foreach (ZombieType zombieType in zombieSpawnData.Types)
             {
-                zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 5f;
-                zombieSpawnTimes[2] = 8f;
-                zombieSpawnTimes[3] = 1000f;
-            }
-            else if (zombieKill >= 50 && zombieKill < 60) 
-            {
-                upgradeTime_ez = Time.deltaTime;
-
-                zombieSpawnTimes[0] = 7f;
-                zombieSpawnTimes[1] = 4f;
-                zombieSpawnTimes[2] = 8f;
-                zombieSpawnTimes[3] = 10f;
-            }
-            else if (zombieKill >= 60 && zombieKill < 70) 
-            {
-                zombieSpawnTimes[0] = 6f;
-                zombieSpawnTimes[1] = 4f;
-                zombieSpawnTimes[2] = 6f;
-                zombieSpawnTimes[3] = 8f;
-            }
-            else if (zombieKill >= 70 && zombieKill < 80) 
-            {
-                zombieSpawnTimes[0] = 6f;
-                zombieSpawnTimes[1] = 4f;
-                zombieSpawnTimes[2] = 5f;
-                zombieSpawnTimes[3] = 7f;
-            }
-            else if (zombieKill >= 80) 
-            {
-                zombieSpawnTimes[0] = 5f;
-                zombieSpawnTimes[1] = 5f;
-                zombieSpawnTimes[2] = 5f;
-                zombieSpawnTimes[3] = 5f;
-            }
-
-            
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (Time.time - lastSpawnTime[i] > zombieSpawnTimes[i])
+                foreach (ZombieSpawnRate spawnRate in zombieType.SpawnRates)
                 {
-                    SpawnZombie(i);
+                    if (zombieKill >= spawnRate.Min && zombieKill <= spawnRate.Max)
+                    {
+                        zombieSpawnTimes[i] = spawnRate.Value;
+                        if (Time.time - lastSpawnTime[i] > zombieSpawnTimes[i])
+                        {
+                            SpawnZombie(i);
 
-                    lastSpawnTime[i] = Time.time;
+                            lastSpawnTime[i] = Time.time;
+                        }
+                    }
                 }
             }
 
